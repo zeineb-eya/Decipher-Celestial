@@ -1,0 +1,84 @@
+{% extends ('basefront/base.html.twig') %}
+{% block body %}
+
+	<section class="py-5" id="services">
+		<div class="container py-5">
+			<header class="mb-4 text-center mb-5">
+				<p class="text-serif mb-0 text-primary">Offres
+				</p>
+				<h2 class="text-uppercase">Nos offres
+				</h2>
+		
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
+
+
+<div class="dropdown show" style="float:right;">
+  <a class="btn btn-outline-primary px-4 dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    Trier les offres
+  </a>
+
+  <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+    <a class="dropdown-item"  href="{{ path('listOffreByReduction') }}">Selon la promotion</a>
+    <a class="dropdown-item"  href="{{ path('listOffreByReductionA') }}">Selon la promotion ASC</a>
+   
+  </div>
+</div>
+	{#}	<a class="btn btn-outline-primary px-4" href="{{ path('listOffreByReduction') }}" style="float:right;">Trier les offres selon la promotion</a>
+		<a class="btn btn-outline-primary px-4" href="{{ path('listOffreByReductionA') }}" style="float:right;">Trier les offres selon la promotion ASC</a>
+	#}
+		<br>
+		<br>
+			</header>
+		
+		<br>
+		<br>
+
+		<div class="row gy-4" id="Mytable">
+			
+			{% for offre in offres %}
+				
+					<div class="col-lg-4">
+					 <img src="{{ asset ('Front/img/travel.png')}}" alt="..." width="100" class="center">
+					
+						<br>
+						<br>
+						
+						<h3 class=" col-lg-5 h6">{{ offre.nomOffre }}</h3>
+						<br>
+						<p class="col-lg-6 text-muted">{{ offre.descriptionOffre }}</p>
+					
+						<p class="col-lg-6 text-muted"> {{offre.dateDebutOffre   ? offre.dateDebutOffre  |date('Y-m-d') : '' }}</p>
+						<p class="col-lg-6 text-muted"> {{ offre.dateFinOffre  ? offre.dateFinOffre |date('Y-m-d') : '' }} </p>
+						<h3 class=" col-lg-6 h5">{{ offre.prixOffre }}</h3>
+
+						
+					{#}	<p class=" col-lg-6 text-muted">{{offre.planning}}</p>#}
+
+						<h3 class=" col-lg-6 h5">	{{ offre.reduction }}%</h3>
+{#test $prixPlanning->getTotalReglements();#}
+					
+					
+						<br>
+						<div class="col-lg-6 " id="consulter">
+							<a class="btn btn-outline-primary px-4" href="{{ path('offre_showFront', {'id': offre.id}) }}">
+								Consulter offre</a>
+						</div>
+
+					</div>
+
+				{% endfor %}
+			
+			<br>
+			<br>
+			
+		</section>
+		
+	
+  
+	  <div class="navigation" style="margin-left:82%;">
+            {{ knp_pagination_render(offres) }}
+        </div>
+	
+	{% endblock %}

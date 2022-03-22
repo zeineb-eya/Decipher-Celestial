@@ -1,0 +1,16 @@
+{% extends ('basefront/base.html.twig') %}
+{% block title %}New Reservation{% endblock %}
+
+
+
+{% block body %}
+
+    <h1>Create new Reservation</h1>
+
+    {{ include('reservation/_form.html.twig') }}
+
+   <a href="{{ path('reservation_front') }}">back to list</a>
+  
+  {#<a href="{{ path('showreservationbyuser', {'id': reservation.id}) }}">see my reservation list</a>
+  <a href="{{ path('showreservationbyuser',{'id':reservation.id}) }}">see my reservation list</a>#}
+{% endblock %}

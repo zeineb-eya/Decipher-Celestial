@@ -1,0 +1,33 @@
+{% extends ('base_back_f/basebackF.html.twig') %}
+{% block title %}Gestion des Offres
+{% endblock %}
+
+{% block body %}
+
+	<h1>Gestion des Offres</h1>
+
+	<div class="form-row align-items-end">
+		<div class="col">
+
+			{{ form_row(form.nomOffre)}}
+
+		</div>
+
+		<div class="col">
+			<div class="form-group">
+
+
+				<li class="nav-item">
+
+					<a href="{{ path('rechercheOffre')}}" class="nav-
+												link">Recherche par catégorie</a>
+
+				</li>
+				<button type="submit" class="btn btn-success">Rechercher</button>
+			</div>
+		</div>
+	</div>
+	{{form_end(form)}}
+
+
+{% endblock %}

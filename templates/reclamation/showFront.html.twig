@@ -1,0 +1,36 @@
+{% extends ('basefront/base.html.twig') %}
+
+
+{% block title %}Reclamation
+{% endblock %}
+
+{% block body %}
+<br>
+	<h1 style="text-align:center">Reclamation</h1>
+<br>
+	<table class="table">
+		<tbody>
+			<tr>
+				<th>Num reclamtion</th>
+				<td>{{ reclamation.id }}</td>
+			</tr>
+			<tr>
+				<th>Description reclamation</th>
+				<td>{{ reclamation.descriptionReclamation }}</td>
+			</tr>
+			<tr>
+		<th>Date reclamation</th>
+				<td>{{ reclamation.dateReclamation ? reclamation.dateReclamation|date('Y-m-d') : '' }}</td>
+			</tr>
+
+		</tbody>
+	</table>
+	<div>
+		<a href="{{ path('reclamation_indexreclamFront') }}" class="btn btn-primary">Retour </a>
+
+	
+	{{ include('reclamation/_delete_form.html.twig') }}	 
+
+
+	</div>
+{% endblock %}

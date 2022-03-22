@@ -1,0 +1,32 @@
+{% extends ('baseback/base.html.twig') %}
+
+
+{% block title %}Reservations{% endblock %}
+
+{% block body %}
+{{ form(searchReservation) }}
+<table class="table" border="2">
+    <tr>
+        <td>ID</td>
+        <td>User Full Name</td>
+        <td>User Email</td>
+        <td>Reservation date</td>
+        <td>Billet</td>
+        <td>Action</td>
+    </tr>
+    {% for reservation in reservations %}
+        <tr>
+            <td>{{ reservation.id }}</td>
+            
+            <td>{{ reservation.user.prenomUtilisateur }} {{ reservation.user.nomUtilisateur }}</td>
+              <td>  {{ reservation.user.mailUtilisateur  }}</td>
+            <td>{{ reservation.dateReservation ? reservation.dateReservation|date('Y-m-d') : '' }}</td>
+            <td>{{ reservation.billet.id }}</td>
+            <td><a href="{{ path('reservationfront_show', {'id': reservation.id}) }}">show</a>
+                    </td>
+        </tr>
+    {% endfor %}
+</table>
+
+
+{% endblock %}

@@ -1,0 +1,112 @@
+{% extends ('baseback/base.html.twig') %}
+
+
+{% block title %}Reservations by Order{% endblock %}
+
+{% block body %}
+<div id="wrapper">
+<ul
+<li class="nav-item">
+<a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#reservation" aria-expanded="true" aria-controls="reservation">
+<i class="fa fa-cog"></i>
+<span>Functions</span>
+</a>
+<div id="reservation" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
+<div class="bg-white py-2 collapse-inner rounded">
+<h6 class="collapse-header">Functions</h6>
+<a class="collapse-item" href="{{ path('listReservationByDate') }}">List Reservation By Date</a>
+<a class="collapse-item" href="{{ path('listReservationByMail') }}">List Reservation By Mail</a>
+<a class="collapse-item" href="{{ path('listReservationByEtat') }}">List Reservation By Etat</a>
+<a class="collapse-item" href="{{ path('reservation_index') }}">back to list</a>
+</div>
+</div>
+</li>
+</ul>
+</div>
+
+{% if app.request.get('_route') == 'listReservationByDate' %}
+ 
+
+<h1>Reservations by date order By date</h1>
+<table class="table" border="2">
+    <tr>
+        <td>ID</td>
+        <td>User Full Name</td>
+        <td>User Email</td>
+        <td>Reservation date</td>
+        <th>Etat</th>
+        <td>Billet</td>
+        <td>Action</td>
+    </tr>
+    {% for reservation in reservationsByDate %}
+        <tr>
+            <td>{{ reservation.id }}</td>
+             <td>{{ reservation.user.prenomUtilisateur }} {{ reservation.user.nomUtilisateur }}</td>
+                <td>{{ reservation.user.mailUtilisateur }}</td>
+            <td>{{ reservation.dateReservation ? reservation.dateReservation|date('Y-m-d') : '' }}</td>
+              <td>{{ reservation.etatReservation }}</td>
+            <td>{{ reservation.billet.id }}</td>
+            <td><a href="{{ path('reservationfront_show', {'id': reservation.id}) }}">show</a>
+                    
+                    </td>
+        </tr>
+    {% endfor %}
+</table>
+{% elseif app.request.get('_route') == 'listReservationByMail' %}
+    
+<h1>Reservations by date order By Mail</h1>
+<table class="table" border="2">
+    <tr>
+        <td>ID</td>
+         <td>User Full Name</td>
+        <td>User Email</td>
+        <td>Reservation date</td>
+        <th>Etat</th>
+        <td>Billet</td>
+        <td>Action</td>
+    </tr>
+    {% for reservation in reservationsByMail %}
+         <tr>
+            <td>{{ reservation.id }}</td>
+            <td>{{ reservation.user.prenomUtilisateur }} {{ reservation.user.nomUtilisateur }}</td>
+                <td>{{ reservation.user.mailUtilisateur }}</td>
+            <td>{{ reservation.dateReservation ? reservation.dateReservation|date('Y-m-d') : '' }}</td>
+              <td>{{ reservation.etatReservation }}</td>
+            <td>{{ reservation.billet.id }}</td>
+            <td><a href="{{ path('reservationfront_show', {'id': reservation.id}) }}">show</a>
+                    
+                  </td>
+        </tr>
+    {% endfor %}
+</table>
+{% elseif app.request.get('_route') == 'listReservationByEtat' %}
+    
+
+<h1>Reservations by date order By Etat</h1>
+<table class="table" border="2">
+    <tr>
+        <td>ID</td>
+         <td>User Full Name</td>
+        <td>User Email</td>
+        <td>Reservation date</td>
+        <th>Etat</th>
+        <td>Billet</td>
+        <td>Action</td>
+    </tr>
+    {% for reservation in reservationsByEtat %}
+         <tr>
+            <td>{{ reservation.id }}</td>
+            <td>{{ reservation.user.prenomUtilisateur }} {{ reservation.user.nomUtilisateur }}</td>
+                <td>{{ reservation.user.mailUtilisateur }}</td>
+            <td>{{ reservation.dateReservation ? reservation.dateReservation|date('Y-m-d') : '' }}</td>
+              <td>{{ reservation.etatReservation }}</td>
+            <td>{{ reservation.billet.id }}</td>
+            <td><a href="{{ path('reservationfront_show', {'id': reservation.id}) }}">show</a>
+                   
+                  </td>
+        </tr>
+    {% endfor %}
+</table>
+{% endif %}
+
+{% endblock %}

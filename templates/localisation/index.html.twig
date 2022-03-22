@@ -1,0 +1,62 @@
+{% extends ('baseback/base.html.twig') %}
+{% block title %}Gestion des Localisations
+{% endblock %}
+
+
+{% block body %}
+	<h1>Gestion des Localisations</h1>
+			<input  id="myInput"  type="text" placeholder="Search.." >
+
+			<a href="{{ path('mail') }}" class="btn btn-primary" style="float:right;margin-right: 20px;">Envoyer mail</a>
+
+	<table class="table">
+		<thead>
+			<tr>
+				<th>Id</th>
+				<th>HeureDepart</th>
+				<th>HeureArrivee</th>
+				<th>PositionDepart</th>
+				<th>PositionArivee</th>
+				<th>Fusee</th>
+
+			</tr>
+		</thead>
+		<tbody id="myTable">
+			{% for localisation in localisations %}
+				<tr>
+					<td>{{ localisation.id }}</td>
+					<td>{{ localisation.heureDepartLocalisation ? localisation.heureDepartLocalisation|date('H:i:s') : '' }}</td>
+					<td>{{ localisation.heureArriveeLoacalisation ? localisation.heureArriveeLoacalisation|date('H:i:s') : '' }}</td>
+					<td>{{ localisation.positionDepartLocalisation }}</td>
+					<td>{{ localisation.positionAriveePlanning }}</td>
+					<td>{{ localisation.fusee }}</td>
+
+
+
+					<td>
+						<a href="{{ path('localisation_show', {'id': localisation.id}) }}"class="btn btn-primary">show</a>
+
+						<a href="{{ path('localisation_edit', {'id': localisation.id}) }}"class="btn btn-primary">edit</a>
+					</td>
+				</tr>
+			{% else %}
+				<tr>
+				{% endfor %}
+			</tbody>
+		</tbody>
+	</table>
+
+	<a href="{{ path('localisation_new') }}"class="btn btn-primary">Create new</a>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+        $(document).ready(function(){
+            $("#myInput").on("keyup", function() {
+                var value = $(this).val().toLowerCase();
+                $("#myTable tr").filter(function() {
+                    $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+                });
+            });
+        });
+    </script>
+	
+{% endblock %}

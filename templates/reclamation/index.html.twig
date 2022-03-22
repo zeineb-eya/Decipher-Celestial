@@ -1,0 +1,96 @@
+{% extends ('baseback/base.html.twig') %}
+{% block title %}Gestion des Reclamations
+{% endblock %}
+
+
+{% block body %}
+	<h1>Gestion des reclamations</h1>
+
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
+
+<div class="dropdown show" style="float:right;">
+  <a class="btn btn-outline-primary px-4 dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    Trier les reclamations
+  </a>
+
+  <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+    <a class="dropdown-item"  href="{{ path('listReclamByDate') }}">date descandante</a>
+    <a class="dropdown-item"  href="{{ path('listReclamByDateA') }}">date ascendante</a>
+   
+  </div>
+</div>
+
+
+
+
+	<a style="margin-left: 80px" class="btn btn-primary" id="btn-1" </a>
+			<input  id="myInput"  type="text" placeholder="Rechercher..." style="float:right;" >
+			
+			<br>
+	
+	 <a href="{{ path('listreclamation') }}" class="btn btn-primary" style="float:right;margin-right: 20px;">  Imprimer</a>
+	<a href="{{ path('contact') }}" class="btn btn-primary" style="float:right;margin-right: 20px;">Envoyer mail</a>
+
+
+
+
+	{#<a href="{{ path('traiter', {'id': reclamation.id}) }}" class="btn btn-primary">Traiter</a>#}
+<br>
+<br>
+
+	<table class="table">
+		<thead>
+			<tr>
+				<th>Num reclamation</th>
+				<th>Description reclamation</th>
+				<th>Date reclamation</th>
+				<th>Utilisateur</th>
+				<th>Etat reclamation</th>
+			</tr>
+		</thead>
+		<tbody id="myTable">
+			{% for reclamation in reclamations %}
+				<tr>
+					<td>{{ reclamation.id }}</td>
+					<td>{{ reclamation.descriptionReclamation }}</td>
+					<td>{{ reclamation.dateReclamation ? reclamation.dateReclamation|date('Y-m-d') : '' }}</td>
+					
+					<td>{{ reclamation.user }}</td>
+					<td>{{ reclamation.etatReclamation }}</td>
+					
+					<div>
+						<td>
+							<a href="{{ path('reclamation_show', {'id': reclamation.id}) }}" class="btn btn-primary">consulter</a>
+
+<a href="{{ path( "traiter" , {'id': reclamation.id} ) }}"> Traiter </a>
+						</td>
+					</div>
+				</tr>
+			{% else %}
+				<tr>
+					<td colspan="5">no records found</td>
+				</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+{% block javascripts %}
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+        $(document).ready(function(){
+            $("#myInput").on("keyup", function() {
+                var value = $(this).val().toLowerCase();
+                $("#myTable tr").filter(function() {
+                    $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+                });
+            });
+        });
+    </script>
+
+{% endblock %}
+
+		<div class="navigation" style="margin-left:75%;">
+            {{ knp_pagination_render(reclamations) }}
+        </div>
+{% endblock %}

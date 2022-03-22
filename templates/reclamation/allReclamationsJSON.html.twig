@@ -1,0 +1,7 @@
+{% extends ('base_back_f/basebackF.html.twig') %}
+
+{% block body %}
+<h1>Liste des reclamations </h1>
+{{ data| json_encode() }}
+
+{% endblock %}

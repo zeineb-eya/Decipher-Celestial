@@ -1,0 +1,36 @@
+{% extends ('baseback/base.html.twig') %}
+
+
+{% block title %}Reclamation
+{% endblock %}
+
+{% block body %}
+	<h1>Reclamation</h1>
+
+	<table class="table">
+		<tbody>
+			<tr>
+				<th>Num reclamation</th>
+				<td>{{ reclamation.id }}</td>
+			</tr>
+			<tr>
+				<th>Description reclamation</th>
+				<td>{{ reclamation.descriptionReclamation }}</td>
+			</tr>
+			<tr>
+				<th>Date reclamation</th>
+				<td>{{ reclamation.dateReclamation ? reclamation.dateReclamation|date('Y-m-d') : '' }}</td>
+			</tr>
+	<tr>
+				<th>Utilisateur</th>
+				<td>{{ reclamation.user }}</td>
+			</tr>
+		</tbody>
+	</table>
+	<div>
+		<a href="{{ path('reclamation_index') }}" class="btn btn-primary" style="float:right;">Retour a la liste</a>
+
+		
+
+	</div>
+{% endblock %}

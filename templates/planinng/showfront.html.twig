@@ -1,0 +1,50 @@
+{% extends ('basefront/base.html.twig') %}
+
+
+{% block title %}Planning
+{% endblock %}
+
+{% block body %}
+	<h1>PLanning</h1>
+
+	<table class="table">
+	<th> </th>
+			<td><img src ="{{ asset('uploads/images/' ~ planinng.imgPlaninng)}}"
+					alt ="Nature" style = "width: 500px"></td>
+		</tbody>
+		<tbody>
+			
+			<tr>
+                 <th class="p-3 mb-2 bg-primary text-white">Nom Du planinng</th>
+				<th>{{ planinng.nomPlanning }}</th>
+			</tr>
+			<tr>
+				<th>Date Debut du Planning</th>
+				<th class="p-3 mb-2 bg-secondary text-white">{{ planinng.dateDebutPlanning ? planinng.dateDebutPlanning|date('Y-m-d') : '' }}</th>
+			</tr>
+			<tr>
+				<th class="p-3 mb-2 bg-primary text-white">Date Fin du Planning</th>
+				<th >{{ planinng.dateFinPlanning ? planinng.dateFinPlanning|date('Y-m-d') : '' }}</th>
+			</tr>
+			<tr>
+				<th>Destination </th>
+				<th class="p-3 mb-2 bg-secondary text-white">{{ planinng.destinationPlanning }}</th>
+			</tr>
+			
+			<tr>
+				<th class="p-3 mb-2 bg-primary text-white">Description</th>
+				<th>{{ planinng.descriptionPlanning }}</th>
+			</tr>
+			<tr>
+				<th>Periode</th>
+				<th class="p-3 mb-2 bg-secondary text-white">{{ planinng.periodePlanning }}</th>
+			</tr>
+			<tr>
+				<th class="p-3 mb-2 bg-primary text-white">Prix</th>
+				<th>{{ planinng.prixPlanning }}</th>
+			</tr>
+			
+	</table>
+	   <div class="col-lg-3 text-lg-end"><a class="btn btn-outline-primary px-4" href="{{ path('localisation_showfront', {'id': planinng.id}) }}">VOIR LOCALISATION</a></div>
+          </div>
+{% endblock %}

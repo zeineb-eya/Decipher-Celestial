@@ -1,0 +1,75 @@
+{% extends ('baseback/base.html.twig') %}
+
+{% block title %}Gestion des Plannings
+{% endblock %}
+
+
+{% block body %}
+	<h1>Gestion des Plannings</h1>
+		 <a href="{{ path('listeplaninng') }}" class="btn btn-primary" style="float:right;">  Imprimer</a>
+		     <div id="calendar-holder"></div>
+
+
+			<input  id="myInput"  type="text" placeholder="Search.." >
+	<table class="table">
+		<thead>
+			<tr>
+				<th>Id</th>
+				<th>Nom</th>
+				<th>DateDebut</th>
+				<th>DateFin</th>
+				<th>Destination</th>
+				<th>Description</th>
+				<th>Periode</th>
+				<th>Prix</th>
+			</tr>
+		</thead>
+		<tbody id="myTable">
+			{% for planinng in planinngs %}
+				<tr>
+					<td>{{ planinng.id }}</td>
+					<td>{{ planinng.nomPlanning }}</td>
+					<td>{{ planinng.dateDebutPlanning ? planinng.dateDebutPlanning|date('Y-m-d') : '' }}</td>
+					<td>{{ planinng.dateFinPlanning ? planinng.dateFinPlanning|date('Y-m-d') : '' }}</td>
+					<td>{{ planinng.destinationPlanning }}</td>
+					<td>{{ planinng.descriptionPlanning }}</td>
+					<td>{{ planinng.periodePlanning }}</td>
+					<td>{{ planinng.prixPlanning }}</td>
+					<td>{{ planinng.imgPlaninng }}</td>
+                    <td><img src ="{{ asset('uploads/images/' ~ planinng.imgPlaninng)}}"
+					alt ="" style = "width: 80px"></td>
+					<td>
+						<a href="{{ path('planinng_show', {'id': planinng.id}) }}"class="btn btn-primary">show</a>
+						<a href="{{ path('planinng_edit', {'id': planinng.id}) }}"class="btn btn-primary">edit</a>
+					</td>
+					
+				</tr>
+			{% else %}
+				<tr>
+					<td colspan="5">no records found</td>
+				</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+
+	<a href="{{ path('planinng_new') }}"class="btn btn-primary">Create new</a>
+	<a href="{{ path('listPlanByDate') }}"class="btn btn-primary">Trier Planinng par Date</a>
+	<a href="{{ path('listPlanByPeriode') }}"class="btn btn-primary">Trier Planinng par Periode</a>
+	<a href="{{ path('listPlanByPrix') }}"class="btn btn-primary">Trier Planinng par Prix</a>
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+        $(document).ready(function(){
+            $("#myInput").on("keyup", function() {
+                var value = $(this).val().toLowerCase();
+                $("#myTable tr").filter(function() {
+                    $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+                });
+            });
+        });
+    </script>
+
+
+
+{% endblock %}

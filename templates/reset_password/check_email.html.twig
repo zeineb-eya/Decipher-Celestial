@@ -1,0 +1,39 @@
+{% block body %}
+<html lang="en">
+<head>
+	<title>EMAIL</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+<!--===============================================================================================-->	
+	<link rel="icon" type="image/png" href="login/images/icons/favicon.ico"/>
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="login/vendor/bootstrap/css/bootstrap.min.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="login/css/util.css">
+	<link rel="stylesheet" type="text/css" href="login/css/main.css">
+<!--===============================================================================================-->
+</head>
+<body>
+	<div class="limiter">
+		<div class="container-login100" style="background-image: url('login/images/bg-01.jpg');">
+			<div class="wrap-login100">
+					<span class="login100-form-title p-b-26">
+						FORGOT YOUR PASSWORD?
+					</span>
+    <p>
+        If an account matching your email exists, then an email was just sent that contains a link that you can use to reset your password.
+        This link will expire in {{ resetToken.expirationMessageKey|trans(resetToken.expirationMessageData, 'ResetPasswordBundle') }}.
+    </p>
+    <p>If you don't receive an email please check your spam folder or <a href="{{ path('app_forgot_password_request') }}">try again</a>.</p>
+
+					 </div>
+
+			</div>
+		</div>
+	</div>
+	<div id="dropDownSelect1"></div>	
+<!--===============================================================================================--
+<!--===============================================================================================-->
+</body>
+</html>
+{% endblock %}

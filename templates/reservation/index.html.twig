@@ -1,0 +1,150 @@
+{% extends ('baseback/base.html.twig') %}
+{% block title %}Reservation index{% endblock %}
+
+
+{% block body %}
+<div id="wrapper">
+<ul
+<li class="nav-item">
+<a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#reservation" aria-expanded="true" aria-controls="reservation">
+<i class="fa fa-cog"></i>
+<span>Functions</span>
+</a>
+<div id="reservation" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
+<div class="bg-white py-2 collapse-inner rounded">
+<h6 class="collapse-header">Functions</h6>
+<a class="collapse-item" href="{{ path('listReservationByDate') }}">List Reservation By Date</a>
+<a class="collapse-item" href="{{ path('listReservationByMail') }}">List Reservation By Mail</a>
+<a class="collapse-item" href="{{ path('listReservationByEtat') }}">List Reservation By Etat</a>
+<a class="collapse-item" href="{{ path('imprimerlistreservation') }}">Print List Reservation</a>
+</div>
+</div>
+</li>
+</ul>
+</div>
+
+    <table  class="table" border="2">
+      <!--  <a style="margin-left: 80px" class="btn btn-primary" id="btn-1" />
+			<input  id="myInput"  type="text" placeholder="Search.." >
+ Topbar Search-->
+				<form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
+					<div class="input-group">
+						<input id="myInput" type="text" class="form-control bg-light border-0 small" placeholder="Rechercher..." aria-label="Search" aria-describedby="basic-addon2">
+						<div class="input-group-append">
+							<button class="btn btn-primary" type="button">
+								<i class="fas fa-search fa-sm"></i>
+							</button>
+						</div>
+					</div>
+				</form>
+                
+{#<div class="sidebar-search">
+      <div class="input-group custom-search-form">
+          <input type="text" id="search" class="form-control" placeholder="Search item">
+      </div>
+      <!-- /input-group -->
+  </div>
+  <ul class="nav" id="side-menu">
+      <li>
+          <ul class="nav nav-second-level" id="entitiesNav">
+          </ul>
+      </li>
+  </ul> #}
+      
+                
+  
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Date_reservation</th>
+                <th>user full name</th>
+                <th>user mail</th>
+                <th>Etat</th>
+                <th>billet</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody id="entitiesNav">
+        {% for reservation in reservations %}
+            <tr>
+                <td>{{ reservation.id }}</td>
+                <td>{{ reservation.dateReservation ? reservation.dateReservation|date('Y-m-d') : '' }}</td>
+                 <td>{{ reservation.user.prenomUtilisateur }} {{ reservation.user.nomUtilisateur }}</td>
+                <td>{{ reservation.user.mailUtilisateur }}</td>
+                <td>{{ reservation.etatReservation }}</td>
+                <td>{{ reservation.billet.id }}</td>
+                <td>
+                    <a href="{{ path('reservation_show', {'id': reservation.id}) }}">show</a>
+                     <a href="{{ path('ReservationBillet', {'id': reservation.id}) }}">Ticket</a>
+              {# <a href="{{ path('MailingReservationBillet', {'id': reservation.id}) }}">Confirmation</a>#} 
+                 <a href="{{ path('traiterreservation', {'id': reservation.id}) }}">Confirm</a>
+                    
+                  
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="5">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+     <div class="navigation">
+            {{ knp_pagination_render(reservations) }}
+        </div>
+   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+        $(document).ready(function(){
+            $("#myInput").on("keyup", function() {
+                var value = $(this).val().toLowerCase();
+                $("#entitiesNav tr").filter(function() {
+                    $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+                });
+            });
+        });
+    </script>
+ {# <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script> 
+
+<script type="text/javascript">
+    jQuery(document).ready(function() {
+        var searchRequest = null;
+        $("#search").keyup(function() {
+            var minlength = 3;
+            var that = this;
+            var value = $(this).val();
+            var entitySelector = $("#entitiesNav").html('');
+            if (value.length >= minlength ) {
+                if (searchRequest != null)
+                    searchRequest.abort();
+                searchRequest = $.ajax({
+                    type: "GET",
+                    url: "{{ path('ajax_searchreservation') }}",
+                    data: {
+                        'q' : value
+                    },
+                    dataType: "text",
+                    success: function(msg){
+                        //we need to check if the value is the same
+                        if (value==$(that).val()) {
+                            var result = JSON.parse(msg);
+                            $.each(result, function(key, arr) {
+                                $.each(arr, function(id, value) {
+                                    if (key == 'Reservation') {
+                                        if (id != 'error') {
+                                            entitySelector.append('<li><a href="/reservation/'+id+'">'+value+'</a></li>'+'<li><a href="/reservation/'+user+'">'+value+'</a></li>'+'<li><a href="/reservation/'+etatReservation +'">'+value+'</a></li>'+);
+                                        } else {
+                                            entitySelector.append('<li class="errorLi">'+value+'</li>');
+                                        }
+                                    }
+                                });
+                            });
+                        }
+                     }
+                });
+            }
+        });
+    });
+</script>#}
+   
+   
+{% endblock %}

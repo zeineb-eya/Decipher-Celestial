@@ -1,0 +1,23 @@
+
+ {% block body %}
+ {% for valeur in postes %}
+    <article class="col-12 col-md-6 tm-post">
+        <hr class="tm-hr-primary">
+        <a href="{{path('postedetails' , {'id': valeur.getId()})}}" class="effect-lily tm-post-link tm-pt-60">
+            <div class="tm-post-link-inner">
+                <img src={{ asset ('uploads/images/'~ valeur.getImgPost())}} alt="Image" class="img-fluid">                            
+            </div>
+            
+            <h2 class="tm-pt-30 tm-color-primary tm-post-title">{{valeur.getNom()}}</h2>
+            <p class="tm-pt-30" >
+            {{valeur.getDescriptionPost()|slice(0, 40)}} ...
+        </p>
+        
+        </a>                    
+        
+       
+    </article>
+ 
+ {% endfor %}
+
+     {% endblock %}  

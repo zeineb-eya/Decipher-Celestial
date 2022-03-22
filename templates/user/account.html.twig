@@ -1,0 +1,37 @@
+{% block body %}
+
+<!DOCTYPE html>
+
+<title>New User</title>
+
+ <head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+<!--===============================================================================================-->	
+	<link rel="icon" type="image/png" href="login/images/icons/favicon.ico"/>
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="login/vendor/bootstrap/css/bootstrap.min.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="login/css/util.css">
+	<link rel="stylesheet" type="text/css" href="login/css/main.css">
+<!--===============================================================================================-->
+</head>
+<body>
+	
+	<div class="limiter">
+		<div class="container-login100" style="background-image: url('login/images/bg-01.jpg');">
+			<div class="wrap-login100">
+    <span class="login100-form-title p-b-26">
+						Register
+					</span>
+					<span class="login100-form-title p-b-48">
+						<i class="zmdi zmdi-font"></i>
+					</span>
+          <div align="center" style="color:grey">
+          <div class="wrap-input100 validate-input">
+    {{ include('user/_form.html.twig') }}
+
+    <a href="{{ path('home') }}"class="login100-form-btn">Cancel</a>
+  </div> </div></div>
+</div>
+{% endblock %}

@@ -1,0 +1,69 @@
+{% extends ('basefront/base2.html.twig') %}
+{% block body %}
+<link href="{{ asset ('Front/css/templatemo-xtra-blog.css')}}" rel="stylesheet">
+<div class="container">
+        <main class="tm-main">
+            <!-- Search form -->
+            <div class="row tm-row">
+                <div class="col-12">
+                   <form class="w-search">
+                        <div class="sidebar-search">
+                            <div class="input-group custom-search-form">
+                                <input type="text" id="search" class="form-control" placeholder="Search">
+                            </div>
+                            <!-- /input-group -->
+                        </div>
+                        <ul class="nav" id="side-menu">
+                            <li>
+                                <a href="#"><span class="fa arrow"></span></a>
+                                <ul style="background-color: #0b0b0b" class="nav " id="entitiesNav">
+                                </ul>
+                            </li>
+                        </ul>
+                    </form>
+                </div>                
+            </div>           
+            <div class="row tm-row" id="all">
+                {% include 'basefront/postajax.html.twig' %}
+                
+            </div>
+             <div class="row tm-row" id="search">
+             </div>
+
+            <div class="row tm-row tm-mt-100 tm-mb-75">
+                           
+            </div> 
+             <script src="{{ asset ('Front/js/jquery.min.js')}}"></script>
+             <script src="{{ asset ('Front/js/templatemo-script.js')}}"></script>
+              <script src="{{ asset('assets/js/jquery.js') }}"></script>
+    <script
+            src="{{ asset('https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js')}}">
+    </script>
+    <script>
+        $( document ).ready(function() {
+            var currentRequest = null;
+            $("#search").keyup(function(e){
+                /* La variable value va prendre la valeur insérer dans le champ de texte
+                afin d’effectuer la recherche */
+                var value = $(this).val();
+                if(currentRequest != null) {
+                    currentRequest.abort();
+                }
+                /* Ajax est lancé lors du remplissage du champ texte dont l’id est
+                « search » pour faire la recherche */
+                currentRequest = $.ajax({
+                    url : "{{ path('ajaxPost') }}",
+                    type : 'GET',
+                    data: {
+                        'searchValue' : value
+                    },
+                    success : function(retour)
+                    {
+                        $('#all').html(retour);
+                    },
+                });
+                return false;
+            });
+        });
+    </script>
+     {% endblock %}           

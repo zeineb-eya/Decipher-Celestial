@@ -1,0 +1,44 @@
+<style>
+table {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+td, th {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 8px;
+}
+
+tr:nth-child(even) {
+  background-color: #dddddd;
+}
+</style>
+<h1 align = "center">List De Reservations</h1>
+  <hr>
+  <table  class="table" >
+        <thead>
+            <tr>
+                <th align = "center">Id</th>
+                <th align = "center">Date_reservation</th>
+                <th align = "center">user full name</th>
+                <th align = "center">user mail</th>
+                <th align = "center">billet</th>
+             
+            </tr>
+        </thead>
+        <tbody id="myTable">
+        {% for reservation in reservations %}
+            <tr>
+                <td align = "center">{{ reservation.id }}</td>
+                <td align = "center">{{ reservation.dateReservation ? reservation.dateReservation|date('Y-m-d') : '' }}</td>
+               <td align = "center">{{ reservation.user.prenomUtilisateur }} {{ reservation.user.nomUtilisateur }}</td>
+                <td align = "center">{{ reservation.user.mailUtilisateur }}</td>              
+                <td align = "center">{{ reservation.billet.id }}</td>
+               
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    

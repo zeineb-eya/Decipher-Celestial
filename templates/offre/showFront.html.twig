@@ -1,0 +1,55 @@
+{% extends ('basefront/base.html.twig') %}
+{% block body %}
+
+	<section class="py-5" id="services">
+		<div class="container py-5">
+			<header class="mb-4 text-center mb-5">
+				<p class="text-serif mb-0 text-primary">Offres
+				</p>
+				<h2 class="text-uppercase">Détail de l'Offre
+				</h2>
+		
+
+	{#}	<a class="btn btn-outline-primary px-4" href="{{ path('listOffreByReduction') }}" style="float:right;">Trier les offres selon la promotion</a>
+		<a class="btn btn-outline-primary px-4" href="{{ path('listOffreByReductionA') }}" style="float:right;">Trier les offres selon la promotion ASC</a>
+	#}
+		
+			</header>
+		
+
+		<div class="row gy-4" id="Mytable" style="width:800px; margin:0 auto;">
+			
+				
+					<div class="col-lg-6">
+					 <img src="{{ asset ('Front/img/travel.png')}}" alt="..." width="100" class="center">
+					
+						<br>
+						<br>
+						
+						<h3 class=" col-lg-5 h6">{{ offre.nomOffre }}</h3>
+						<br>
+						<p class="col-lg-6 text-muted">{{ offre.descriptionOffre }}</p>
+					
+						<p class="col-lg-6 text-muted"> {{offre.dateDebutOffre   ? offre.dateDebutOffre  |date('Y-m-d') : '' }}</p>
+						<p class="col-lg-6 text-muted"> {{ offre.dateFinOffre  ? offre.dateFinOffre |date('Y-m-d') : '' }} </p>
+						<h3 class=" col-lg-6 h5">{{ offre.prixOffre }}</h3>
+
+						
+				
+						<h3 class=" col-lg-6 h5">	{{ offre.reduction }}%</h3>
+{#test $prixPlanning->getTotalReglements();#}
+					
+					
+						<br>
+						
+
+					</div>
+
+				
+			<br>
+			<br>
+			
+		</section>
+	
+	
+	{% endblock %}

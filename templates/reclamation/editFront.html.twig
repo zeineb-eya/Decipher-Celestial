@@ -1,0 +1,16 @@
+{% extends ('basefront/base.html.twig') %}
+{% block title %}Modifier reclamation
+{% endblock %}
+
+
+{% block body %}
+<br>
+	<h1 style="text-align:center">Modifier votre reclamation</h1>
+
+
+	{{ include('reclamation/_form.html.twig', {'button_label': 'Modifier'} ) }}
+	<a href="{{ path('reclamation_indexreclamFront') }}" class="btn btn-primary mb-2" >
+		Retour </a>
+	{{ include('reclamation/_delete_form.html.twig') }}
+	
+{% endblock %}

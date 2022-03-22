@@ -1,0 +1,46 @@
+{% extends ('baseback/base.html.twig') %}
+
+
+{% block title %}Localisation
+{% endblock %}
+
+{% block body %}
+	<h1>Localisation</h1>
+
+	<table class="table">
+		<tr>
+			<th>Id</th>
+			<td>{{ localisation.id }}</td>
+		
+	</tr>
+	<tr>
+		<th>HeureDepart_localisation</th>
+		<td>{{ localisation.heureDepartLocalisation ? localisation.heureDepartLocalisation|date('H:i:s') : '' }}</td>
+	</tr>
+	<tr>
+		<th>HeureArrivee_loacalisation</th>
+		<td>{{ localisation.heureArriveeLoacalisation ? localisation.heureArriveeLoacalisation|date('H:i:s') : '' }}</td>
+	</tr>
+	<tr>
+		<th>PositionDepart_localisation</th>
+		<td>{{ localisation.positionDepartLocalisation }}</td>
+	</tr>
+	<tr>
+		<th>PositionArivee_planning</th>
+		<td>{{ localisation.positionAriveePlanning }}</td>
+	</tr>
+	<tr>
+		<th>Fusee</th>
+		<td>{{ localisation.fusee }}</td>
+	</tr>
+	<tr>
+		<th>Planning</th>
+
+	</tr>
+
+</table>
+<a href="{{ path('localisation_index') }}"class="btn btn-primary">back to list</a>
+
+<a href="{{ path('localisation_edit', {'id': localisation.id}) }}"class="btn btn-primary">edit</a>
+{{ include('localisation/_delete_form.html.twig') }}
+{% endblock %}

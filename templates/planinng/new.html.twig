@@ -1,0 +1,12 @@
+{% extends ('baseback/base.html.twig') %}
+{% block title %}New planning
+{% endblock %}
+
+
+{% block body %}
+	<h1>Create new planning</h1>
+
+	{{ include('planinng/_form.html.twig') }}
+
+	<a href="{{ path('planinng_index') }}"class="btn btn-primary">back to list</a>
+{% endblock %}

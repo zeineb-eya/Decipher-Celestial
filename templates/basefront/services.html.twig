@@ -1,0 +1,127 @@
+{% extends ('basefront/base.html.twig') %}
+
+{% block body %}
+
+
+	<!-- Reclamations Section-->
+	<section class="bg-primary-shade text-white py-5" id="events">
+		<div class="container text-center">
+			<div class="row align-items-center"></div>
+			<h1>
+				Nos offres</h1>
+		</div>
+	</section>
+	<!-- Events Section-->
+	<section class="py-5" id="events>
+																																																															<div class=" container py-5">
+		<header class="mb-4 text-center mb-5">
+			<p class="text-serif mb-0 text-primary">Celestial est là pour votre écoute</p>
+			<h2 class="text-uppercase">Next Events</h2>
+		</header>
+		<div class="p-4 p-lg-5 bg-light text-center mb-4">
+			<div class="row gy-4 align-items-center">
+				<div class="col-lg-3">
+					<div class="d-flex align-items-center justify-content-center justify-content-lg-start">
+						<p class="text-gray text-xl h1 mb-0">19</p>
+						<div class="ms-2">
+							<h5 class="mb-0">February</h5>
+							<p class="text-small mb-0 text-muted">2022</p>
+						</div>
+					</div>
+				</div>
+				<div class="col-lg-6 text-center">
+					<h4 class="text-primary mb-1">
+						<a class="reset-anchor" href="text.html">X-57 First Flight</a>
+					</h4>
+					<p class="text-serif mb-0 text-muted">February 19, 2022 - 12:40 p.m. Eastern</p>
+					<p class="text-serif mb-0 text-muted">Lorem ipsum</p>
+				</div>
+
+				{#ajout reclam#}
+				<div class="col-lg-3 text-lg-end">
+					<a class="btn btn-outline-primary px-4" href="{{ path('reclamation_newFront') }}">Ajouter votre reclamation</a>
+				</div>
+
+				{#showw#}
+				{#ajout reclam#}
+				<div class="col-lg-3 text-lg-end">
+					<a class="btn btn-outline-primary px-4" href="{{ path('reclamation_indexreclamFront') }}">Ajouter votre reclamation</a>
+				</div>
+			</div>
+		</div>
+		<div class="p-4 p-lg-5 bg-light text-center">
+			<div class="row gy-4 align-items-center">
+				<div class="col-lg-3">
+					<div class="d-flex align-items-center justify-content-center justify-content-lg-start">
+						<p class="text-gray text-xl h1 mb-0">1</p>
+						<div class="ms-2">
+							<h5 class="mb-0">March</h5>
+							<p class="text-small mb-0 text-muted">2022</p>
+						</div>
+					</div>
+				</div>
+				<div class="col-lg-6 text-center">
+					<h4 class="text-primary mb-1">
+						<a class="reset-anchor" href="text.html">SGOES-T</a>
+					</h4>
+					<p class="text-serif mb-0 text-muted">March 1, 2022</p>
+					<p class="text-serif mb-0 text-muted">Lorem ipsum</p>
+				</div>
+				<div class="col-lg-3 text-lg-end">
+					<a class="btn btn-outline-primary px-4" href="text.html">Find out more</a>
+				</div>
+
+			</div>
+		</div>
+	</div>
+</section>
+
+
+<section class="py-5" id="services">
+	<div class="container py-5">
+		<header class="mb-4 text-center mb-5">
+			<p class="text-serif mb-0 text-primary">Réclamaer
+			</p>
+			<h2 class="text-uppercase">Réclamations
+			</h2>
+		</header>
+		{#testtttttttttttttttttttttt#}
+		{#<li class="mb-2">
+																							<h6 class="mb-1">
+																								<a class="reset-anchor text-primary" href="{{path('services')}}">ajouter reclamation</a>
+																							</h6>
+																						</li>#}
+
+
+		<div class="row text-center gy-4">
+			<div class="col-lg-4"><img src="{{ asset ('Front/img/global.png')}}" alt="..." width="100">
+				<h3 class="h5">Lorem ipsum dolor</h3>
+				<p class="text-muted">Lorem ipsum dolor sit amet, consectetur elit sed do eiusmod tempor incididunt labore.</p>
+			</div>
+			<div class="col-lg-4"><img src="{{ asset ('Front/img/astronaut.png')}}" alt="..." width="100">
+				<h3 class="h5">Lorem ipsum dolor</h3>
+				<p class="text-muted">Lorem ipsum dolor sit amet, consectetur elit sed do eiusmod tempor incididunt labore.</p>
+			</div>
+			<div class="col-lg-4"><img src="{{ asset ('Front/img/travel.png')}}" alt="..." width="100">
+				<h3 class="h5">Special events</h3>
+				<p class="text-muted">Lorem ipsum dolor sit amet, consectetur elit sed do eiusmod tempor incididunt labore.</p>
+			</div>
+		</div>
+	</div>
+</section>{% endblock %}{% block javascripts %}
+<script>
+	var share = document.querySelector("#share");
+var social = document.querySelector(".social");
+var inputs = document.querySelectorAll("input");
+var textarea = document.querySelectorAll("textarea");
+share.addEventListener('click', function () {
+
+social.classList.toggle('socialshow');
+inputs.forEach(e => {
+e.classList.toggle('wide');
+});
+textarea.forEach(e => {
+e.classList.toggle('wide');
+});
+});
+</script>{% endblock %}

@@ -1,0 +1,60 @@
+
+{% block body %}
+	<h1>Liste des planinngs</h1>
+	<table class="table">
+		<thead>
+			<tr>
+				<th>Id</th>
+				<th>Nom</th>
+				<th>DateDebut</th>
+				<th>DateFin</th>
+				<th>Destination</th>
+				<th>Description</th>
+				<th>Periode</th>
+				<th>Prix</th>
+			</tr>
+		</thead>
+		<tbody id="myTable">
+			{% for planinng in planinngs %}
+				<tr>
+					<td>{{ planinng.id }}</td>
+					<td>{{ planinng.nomPlanning }}</td>
+					<td>{{ planinng.dateDebutPlanning ? planinng.dateDebutPlanning|date('Y-m-d') : '' }}</td>
+					<td>{{ planinng.dateFinPlanning ? planinng.dateFinPlanning|date('Y-m-d') : '' }}</td>
+					<td>{{ planinng.destinationPlanning }}</td>
+					<td>{{ planinng.descriptionPlanning }}</td>
+					<td>{{ planinng.periodePlanning }}</td>
+					<td>{{ planinng.prixPlanning }}</td>
+					<td>{{ planinng.imgPlaninng }}</td>
+                    <td><img src ="{{ asset('uploads/images/' ~ planinng.imgPlaninng)}}"
+					alt ="" style = "width: 80px"></td>
+					<td>
+						<a href="{{ path('planinng_show', {'id': planinng.id}) }}"class="btn btn-primary">show</a>
+						<a href="{{ path('planinng_edit', {'id': planinng.id}) }}"class="btn btn-primary">edit</a>
+					</td>
+					
+				</tr>
+			{% else %}
+				<tr>
+					<td colspan="5">no records found</td>
+				</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+  <style>
+   table {
+   font-family: arial, sans-serif;
+   border-collapse: collapse;
+   width: 100%;
+   margin-right: 100%
+   }
+  td, th {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 8px;
+  }
+   tr:nth-child(even) {
+  background-color: #dddddd;
+   }
+  </style>
+{% endblock %}

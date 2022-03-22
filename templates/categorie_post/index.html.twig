@@ -1,0 +1,38 @@
+
+{% extends ('base_back_f/basebackF.html.twig') %}
+{% block title %}Gestion des CategoriePost 
+{% endblock %}
+
+
+{% block body %}
+    <h1>CategoriePost index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Nom_categorie_post</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for categorie_post in categorie_posts %}
+            <tr>
+                <td>{{ categorie_post.id }}</td>
+                <td>{{ categorie_post.nomCategoriePost }}</td>
+                <td>
+                 <button class="btn btn-light">    <a href="{{ path('categorie_post_show', {'id': categorie_post.id}) }}">show</a> </button>
+                 <button class="btn btn-light">    <a href="{{ path('categorie_post_edit', {'id': categorie_post.id}) }}">edit</a> </button>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="3">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{{ knp_pagination_render(categorie_posts) }}
+
+  <button class="btn btn-light">   <a href="{{ path('categorie_post_new') }}">Create new</a> </button>
+{% endblock %}

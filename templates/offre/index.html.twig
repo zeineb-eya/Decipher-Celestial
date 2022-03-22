@@ -1,0 +1,80 @@
+{% extends ('base_back_f/basebackF.html.twig') %}
+{% block title %}Gestion des Offres
+{% endblock %}
+
+{% block body %}
+
+	<h1>Gestion des Offres</h1>
+
+<a style="margin-left: 80px" class="btn btn-primary" id="btn-1" </a>
+			<input  id="myInput"  type="text" placeholder="Rechercher..." style="float:right;" >
+
+<a class="btn btn-primary px-4" href="{{ path('listOffreByReductionB') }}" style="float:right;">Trier les offres selon la promotion</a>
+	<a href="{{ path('offre_new') }}" class="btn btn-primary" style="float:right;margin-right: 20px;">Creer</a>
+	
+	
+	<br>
+	<br>
+	<table class=" table">
+		<thead>
+			<tr>
+				<th>Id</th>
+				<th>Nom offre</th>
+				<th>Description offre</th>
+				<th>Prix</th>
+				<th>Reduction</th>
+				{#<th>ID Planning</th>#}
+				<th>Date debut Offre</th>
+				<th>Date fin Offre</th>
+			</tr>
+		</thead>
+		<tbody id="myTable">
+			
+			
+			
+		{%  for offre in offres %}
+				<tr>
+					<td>{{ offre.id }}</td>
+					<td>{{ offre.nomOffre }}</td>
+					<td>{{ offre.descriptionOffre }}</td>
+					<td>{{ offre.prixOffre }} TND</td>
+					<td>{{ offre.reduction }} %</td>
+					{#<td>{{ offre.planning }}</td>#}
+					<td>{{ offre.dateDebutOffre ? offre.dateDebutOffre|date('Y-m-d') : '' }}</td>
+					<td>{{ offre.dateFinOffre ? offre.dateFinOffre|date('Y-m-d') : '' }}</td>
+					<td>
+						<a href="{{ path('offre_show', {'id': offre.id}) }}" class="btn btn-primary">Consulter</a>
+						<a href="{{ path('offre_edit', {'id': offre.id}) }}" class="btn btn-primary" >Modifier</a>
+
+		</td>
+				</tr>
+			</a>
+		</tbody>
+	</td>
+</tr>{% else %}
+<tr>
+	<td colspan="5">no records found</td>
+</tr>
+{% endfor %}
+</tbody>
+</table>
+	{% block javascripts %}
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+        $(document).ready(function(){
+            $("#myInput").on("keyup", function() {
+                var value = $(this).val().toLowerCase();
+                $("#myTable tr").filter(function() {
+                    $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+                });
+            });
+        });
+    </script>
+
+{% endblock %}
+
+	  <div class="navigation" style="margin-left:80%;">
+            {{ knp_pagination_render(offres) }}
+        </div>
+	
+{% endblock %}

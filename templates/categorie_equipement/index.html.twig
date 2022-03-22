@@ -1,0 +1,29 @@
+{% extends ('basefront/base.html.twig') %}
+{% block body %}
+<!DOCTYPE html>
+
+<title>CategorieEquipement index</title>
+
+    <h1 class="section-title" align="center">Nos Categories</h1>
+<h4 class="sub-title"  align="center">Chaque categorie contient des equipements ! !</h4>
+
+<table style='font-family:"Courier New", Courier, monospace; font-size:80%' >
+{% for categorie_equipement in categorie_equipements %}
+    <td align="center">
+<div  class="card text-white bg-dark mb-3"style="width: 18rem;" align="center">
+  
+  <div class="card-body" >
+      <h5 class="card-title">{{ categorie_equipement.nomCategorieEquipement }}</h5>
+      
+                
+        {% else %}
+            <tr>
+                <td colspan="3">no records found</td>
+            </tr>
+        {% endfor %}
+        <div/>
+        <div/>
+        <td/>
+    </table>
+<table align="center">{{ knp_pagination_render(categorie_equipements) }}</table>
+{% endblock %}

@@ -1,0 +1,20 @@
+{% block body %}
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+<!--===============================================================================================-->	
+	<link rel="icon" type="image/png" href="login/images/icons/favicon.ico"/>
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="login/vendor/bootstrap/css/bootstrap.min.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="login/css/util.css">
+	<link rel="stylesheet" type="text/css" href="login/css/main.css">
+<!--===============================================================================================-->
+</head>
+{{ form_start(form) }}
+    {{ form_widget(form) }}
+    <button class="login100-form-btn">{{ button_label|default('Save') }}</button>
+{{ form_end(form) }}
+{% endblock %}
+
+						

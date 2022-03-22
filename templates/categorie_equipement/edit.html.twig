@@ -1,0 +1,13 @@
+{% extends ('base_back_f/basebackF.html.twig') %}
+{% block body %}
+<!DOCTYPE html>
+
+<title>Edit CategorieEquipement</title>
+    <h1>Edit CategorieEquipement</h1>
+
+    {{ include('categorie_equipement/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('categorie_equipement_indexback') }}">back to list</a>
+
+    {{ include('categorie_equipement/_delete_form.html.twig') }}
+{% endblock %}

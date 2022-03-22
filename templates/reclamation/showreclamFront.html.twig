@@ -1,0 +1,39 @@
+{% extends ('basefront/base.html.twig') %}
+
+
+{% block title %}Reclamation
+{% endblock %}
+
+{% block body %}
+	<h1>Reclamation</h1>
+
+	<table class="table">
+		<tbody>
+			<tr>
+				<th>Id</th>
+				<td>{{ reclamation.id }}</td>
+			</tr>
+			<tr>
+				<th>Description_reclamation</th>
+				<td>{{ reclamation.descriptionReclamation }}</td>
+			</tr>
+		{#	<tr>
+				<th>Date_reclamation</th>
+				<td>{{ reclamation.dateReclamation ? reclamation.dateReclamation|date('Y-m-d') : '' }}</td>
+			</tr>#}
+			<tr>
+				<th>Etat_reclamation</th>
+				<td>{{ reclamation.etatReclamation }}</td>
+			</tr>
+		</tbody>
+	</table>
+	<div>
+
+		<div href="{{ path('reclamation_showFront', {'id': reclamation.id}) }}">VOIR Reclaamtion</a>
+	</div>
+	<a href="{{ path('reclamation_indexreclamFront') }}" class="btn btn-primary">back to list</a>
+
+	<a href="{{ path('reclamation_editFront'), {'id': reclamation.id}) }}" class="btn btn-primary">edit</a>
+
+
+</div>{% endblock %}

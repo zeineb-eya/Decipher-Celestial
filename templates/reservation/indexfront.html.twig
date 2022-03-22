@@ -1,0 +1,77 @@
+{% extends ('basefront/base.html.twig') %}
+{% block title %}My Reservations{% endblock %}
+
+{% block body %}
+
+<table class="table" border="2">
+<td><a href="{{ path('listReservationByDatefront') }}">List Reservation By Date</a></td>
+<td><a href="{{ path('listReservationByMailfront') }}">List Reservation By Mail</a></td>
+<td><a href="{{ path('listReservationByEtatfront') }}">List Reservation By Etat</a></td>
+ <td><a href="{{ path('reservation_front') }}">back to list</a></td>
+</table>
+   
+    <form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
+					<div class="input-group">
+						<input id="myInput" type="text" class="form-control bg-light border-0 small" placeholder="Rechercher..." aria-label="Search" aria-describedby="basic-addon2">
+						<div class="input-group-append">
+							<button class="btn btn-primary" type="button">
+								<i class="fas fa-search fa-sm"></i>
+							</button>
+						</div>
+					</div>
+				</form> 
+    
+<div class="container">
+  <div class="table-responsive">
+    <table class="basic-table table-headers table table-hover">
+      <thead>
+        <tr>
+                <th>Id</th>
+                <th>Date_reservation</th>
+                  <th>Etat</th>
+                <th>billet</th>
+                <th>actions</th>
+        </tr>
+       
+      </thead>
+      <tbody id="myTable">
+       {% for reservation in reservations %}
+            <tr>
+                <td>{{ reservation.id }}</td>
+                <td>{{ reservation.dateReservation ? reservation.dateReservation|date('Y-m-d') : '' }}</td>
+                 <td>{{ reservation.etatReservation }}</td>
+                <td>{{ reservation.billet.id }}</td>
+                <td>
+                    <a href="{{ path('reservationfront_show', {'id': reservation.id}) }}">show</a>
+                    <a href="{{ path('reservation_edit', {'id': reservation.id}) }}">edit</a>
+                     <a href="{{ path('ReservationBillet', {'id': reservation.id}) }}">Ticket</a>
+                       <a href="{{ path('cancelreservation', {'id': reservation.id}) }}">Cancel</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="5">no records found</td>
+            </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    <div class="navigation">
+            {{ knp_pagination_render(reservations) }}
+        </div>
+  </div>
+</div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+        $(document).ready(function(){
+            $("#myInput").on("keyup", function() {
+                var value = $(this).val().toLowerCase();
+                $("#myTable tr").filter(function() {
+                    $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+                });
+            });
+        });
+    </script>
+
+  
+{% endblock %}

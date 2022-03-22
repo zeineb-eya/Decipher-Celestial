@@ -1,0 +1,12 @@
+{% extends ('base_back_f/basebackF.html.twig') %}
+{% block title %}New Offre
+{% endblock %}
+
+
+{% block body %}
+	<h1>Créer une offre</h1>
+
+	{{ include('offre/_form.html.twig') }}
+
+	<a href="{{ path('offre_index') }}" class="btn btn-primary" style="float:right;margin-right: 20px;">retour</a>
+{% endblock %}

@@ -1,0 +1,35 @@
+{% extends ('base_back_f/basebackF.html.twig') %}
+{% block body %}
+<!DOCTYPE html>
+
+<title>Equipement</title>
+
+    <h1>Equipement</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ equipement.id }}</td>
+            </tr>
+            <tr>
+                <th>Nom_equipement</th>
+                <td>{{ equipement.nomEquipement }}</td>
+            </tr>
+            <tr>
+                <th>Etat_equipement</th>
+                <td>{{ equipement.etatEquipement }}</td>
+            </tr>
+            <tr>
+                <th>Description_equipement</th>
+                <td>{{ equipement.descriptionEquipement }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('equipement_indexback') }}">back to list</a>
+
+    <a href="{{ path('equipement_edit', {'id': equipement.id}) }}">edit</a>
+
+    {{ include('equipement/_delete_form.html.twig') }}
+{% endblock %}

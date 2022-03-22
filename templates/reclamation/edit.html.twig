@@ -1,0 +1,14 @@
+{% extends ('baseback/base.html.twig') %}
+{% block title %}Modifier reclamation
+{% endblock %}
+
+
+{% block body %}
+	<h1>Modifier reclamation</h1>
+
+
+	{{ include('reclamation/_form.html.twig', {'button_label': 'Update'} ) }}
+	<a href="{{ path('reclamation_index') }}" class="btn btn-primary">
+		to list</a>
+	{{ include('reclamation/_delete_form.html.twig') }}
+{% endblock %}

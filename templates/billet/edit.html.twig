@@ -1,0 +1,12 @@
+{% extends ('baseback/base.html.twig') %}
+{% block title %}Edit Billet{% endblock %}
+
+{% block body %}
+    <h1>Edit Billet</h1>
+
+    {{ include('billet/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('billet_index') }}">back to list</a>
+
+    {{ include('billet/_delete_form.html.twig') }}
+{% endblock %}

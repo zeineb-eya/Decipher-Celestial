@@ -1,0 +1,136 @@
+{% extends ('basefront/base.html.twig') %}
+{% block body %}
+<!DOCTYPE html>
+<html>
+  <h1>La liste des equipements !</h1>
+    <div class="album py-5 bg-light">
+        <div class="container">
+        <h2>Rechercher un equipement !!</h2>
+<head>
+	<title></title>
+</head>
+<body>
+
+  <div class="sidebar-search">
+      <div class="input-group custom-search-form">
+          <input type="text" id="search" class="form-control" placeholder="Search item">
+      </div>
+      <!-- /input-group -->
+  </div>
+  <ul class="nav" id="side-menu">
+      <li>
+          <ul class="nav nav-second-level" id="entitiesNav1">
+          </ul>
+      </li>
+  </ul>
+
+
+
+<!-- jQuery is necessary -->
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script> 
+<script type="text/javascript">
+    jQuery(document).ready(function() {
+        var searchRequest = null;
+        $("#search").keyup(function() {
+            var minlength = 1;
+            var that = this;
+            var value = $(this).val();
+            var entitySelector = $("#entitiesNav1").html('');
+            if (value.length >= minlength ) {
+                if (searchRequest != null)
+                    searchRequest.abort();
+                searchRequest = $.ajax({
+                    type: "GET",
+                    url: "{{ path('ajax_searchh') }}",
+                    data: {
+                        'q' : value
+                    },
+                    dataType: "text",
+                    success: function(msg){
+                        //we need to check if the value is the same
+                        
+                        if (value==$(that).val()) {
+                            var result = JSON.parse(msg);
+                            $.each(result, function(key, arr) {
+                                $.each(arr, function(id, value) {
+                                    if (key == 'equipements') {
+                                        if (id != 'error') {
+                                             
+                                            console.log(id , value)
+                                            entitySelector.append('<li><b>'+value[0]+'</b><a href="/equipementt/'+id+'">'+'<img src="/uploads/images/'+value[4]+'" style="width: 50px; height: 50px"/>'+'</a></li>');
+                                                    
+                                                    
+                                        } else {
+                                            entitySelector.append('<li class="errorLi">'+value+'</li>');
+                                        }
+                                    }
+                                });
+                            });
+                        }
+                     }
+                });
+            }
+        });
+    });
+</script>
+<div class="post-container">
+<div class="row">
+
+
+        <section class="featured section-padding">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12 text-center">
+                        <div class="heading">
+                            <h1 class="section-title">Nos Equipments</h1>
+                            <h4 class="sub-title">Ces Equipments sont disponibles pour vous ! !</h4>
+                        </div>
+                    </div>
+
+                    {% for equipement in equipements %}
+                    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-4">
+                        <div class="featured-box">
+                            <figure>
+
+
+                            <a href="#"><img class="img-fluid" src="{{ '../uploads/images/' ~ equipement.imageEquipement }}" alt=""style="width: 250px; height: 250px"></a>
+                            </figure>
+                            <div class="content-wrapper">
+                                <div class="feature-content">
+                            <h4><a href="#">{{ equipement.nomEquipement }}</a></h4> 
+                            <p class="listing-tagline">Description: {{ equipement.descriptionEquipement }}</p>
+                            <div class="meta-tag">
+                                        <div class="user-name">
+                                    <p><i class="lni-user"></i>Etat: {{ equipement.etatEquipement }}</p>
+                                        </div>
+                                        <div class="listing-category">
+                                    <p><i class="lni-alarm-clock"></i>Categorie :{{ equipement.categorieEquipement }} </p>                                        </div>
+                                    </div>
+                                </div>
+                                <div class="listing-bottom clearfix">
+                                    <div class="btn-group">
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                <table align="center">{{ knp_pagination_render(equipements) }}</table>
+
+
+                </div>
+            </div>
+
+        </section>
+
+
+
+</div>
+
+</div>
+</body>
+</html>
+<table><td><img src="{{ qr_code_url(app.request.uri)}}" style="width: 250px; height: 250px"/></td><td>   Scannez notre code QR</td></table>
+{% endblock %}
+

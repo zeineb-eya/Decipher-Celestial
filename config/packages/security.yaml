@@ -1,0 +1,65 @@
+security:
+    encoders:
+        App\Entity\User:
+            algorithm: bcrypt
+
+    # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
+    providers:
+        # used to reload user from session & other features (e.g. switch_user)
+        app_user_provider:
+            entity:
+                class: App\Entity\User
+                property: mail_utilisateur
+    firewalls:
+      
+        dev:
+            pattern: ^/(_(profiler|wdt)|css|images|js)/
+            security: false
+        main:
+            anonymous: lazy
+            provider: app_user_provider
+            form_login:
+                # "login" is the name of the route created previously
+                login_path: login
+                check_path: login
+               
+                csrf_parameter: _csrf_security_token
+                csrf_token_id: a_private_string
+                      
+
+            guard:
+                entry_point: App\Security\UsersAuthenticator
+                authenticators:
+                   - App\Security\UsersAuthenticator
+                   - App\Security\GoogleAuthenticator
+
+
+            logout:
+                path: app_logout
+                # where to redirect after logout
+                # target: app_any_route
+
+            # activate different ways to authenticate
+            # https://symfony.com/doc/current/security.html#firewalls-authentication
+
+            # https://symfony.com/doc/current/security/impersonating_user.html
+            # switch_user: true
+
+    # Easy way to control access for large sections of your site
+    # Note: Only the *first* access control that matches will be used
+    access_control:
+        - { path: ^/user , roles: ROLE_ADMIN }
+        - { path: ^/equipementt/new , roles: ROLE_ADMIN }
+        - { path: ^/equipementt/edit , roles: ROLE_ADMIN }
+        - { path: ^/equipementt/display , roles: ROLE_ADMIN }
+        - { path: ^/role , roles: ROLE_ADMIN }
+        - { path: ^/commentaire , roles: ROLE_ADMIN }
+        - { path: ^/post , roles: ROLE_ADMIN }
+        - { path: ^/categorie/post , roles: ROLE_ADMIN }
+        - { path: ^/showC , roles: ROLE_USER }
+        - { path: ^/offre , roles: ROLE_ADMIN }
+        - { path: ^/reclamation , roles: ROLE_ADMIN }
+
+
+
+

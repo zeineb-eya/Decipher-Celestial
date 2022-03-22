@@ -1,0 +1,39 @@
+{% extends ('basefront/base.html.twig') %}
+
+
+{% block title %}Localisation
+{% endblock %}
+
+{% block body %}
+	<h1>Localisation</h1>
+
+	<table class="table">
+	  <th> </th>
+		<tbody>
+		</tbody>
+	  
+	   <tr>
+		<th class="p-3 mb-2 bg-primary text-white">Heure de Depart</th>
+		<th>{{ localisation.heureDepartLocalisation ? localisation.heureDepartLocalisation|date('H:i:s') : '' }}</th>
+	   </tr>
+	   <tr>
+		<th>Heure d'Arrivee</th>
+		<th class="p-3 mb-2 bg-secondary text-white">{{ localisation.heureArriveeLoacalisation ? localisation.heureArriveeLoacalisation|date('H:i:s') : '' }}</th>
+	   </tr>
+	    <tr>
+		<th class="p-3 mb-2 bg-primary text-white">Position du Depart</th>
+		<th>{{ localisation.positionDepartLocalisation }}</th>
+	   </tr>
+	   <tr>
+		<th>Position d'Arivee</th>
+		<th class="p-3 mb-2 bg-secondary text-white">{{ localisation.positionAriveePlanning }}</th>
+	    </tr>
+	    <tr>
+		<th class="p-3 mb-2 bg-primary text-white">Fusee</th>
+		<th>{{ localisation.fusee }}</th>
+	    </tr>
+
+   </table>
+               
+<a class="btn btn-outline-primary px-4"  href="{{ path('billet_front') }}">Tickets available</a>
+{% endblock %}

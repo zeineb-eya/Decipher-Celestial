@@ -1,0 +1,12 @@
+{% extends ('baseback/base.html.twig') %}
+{% block title %}New Loacalisation
+{% endblock %}
+
+
+{% block body %}
+	<h1>Create new Loacalisation</h1>
+
+	{{ include('localisation/_form.html.twig') }}
+
+	<a href="{{ path('localisation_index') }}"class="btn btn-primary">back to list</a>
+{% endblock %}

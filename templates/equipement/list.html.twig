@@ -1,0 +1,40 @@
+{% block body %}
+<!DOCTYPE html>
+
+<title>Equipement index</title>
+
+
+    <h1>Equipement index</h1>
+    
+    <table class="table" border="1">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Nom_equipement</th>
+                <th>Etat_equipement</th>
+                <th>Description_equipement</th>
+                <th>Categorie_equipement</th>
+                <th>Image_equipement</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for equipement in equipements %}
+            <tr>
+                <td>{{ equipement.id }}</td>
+                <td>{{ equipement.nomEquipement }}</td>
+                <td>{{ equipement.etatEquipement }}</td>
+                <td>{{ equipement.descriptionEquipement }}</td>
+                <td>{{ equipement.categorieEquipement }}</td>
+                <td><img src ="{{ 'uploads/images/' ~ equipement.imageEquipement}}"style="width: 250px; height: 250px"
+                ></td>
+                
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="5">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
+

@@ -1,0 +1,36 @@
+{% extends ('base_back_f/basebackF.html.twig') %}
+{% block body %}
+<!DOCTYPE html>
+
+<title>CategorieEquipement index</title>
+
+    <h1>CategorieEquipement index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Nom_categorie_equipement</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for categorie_equipement in categorie_equipements %}
+            <tr>
+                <td>{{ categorie_equipement.id }}</td>
+                <td>{{ categorie_equipement.nomCategorieEquipement }}</td>
+                <td>
+                    <a href="{{ path('categorie_equipement_show', {'id': categorie_equipement.id}) }}">show</a>
+                    <a href="{{ path('categorie_equipement_edit', {'id': categorie_equipement.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="3">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('categorie_equipement_new') }}">Create new</a>
+{% endblock %}

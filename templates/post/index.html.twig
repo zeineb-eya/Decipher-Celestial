@@ -1,0 +1,43 @@
+{% extends ('base_back_f/basebackF.html.twig') %}
+{% block title %}Gestion des Post
+{% endblock %}
+
+
+{% block body %}
+	<h1>Gestion des Post</h1>
+	<table class="table">
+		<thead>
+			<tr>
+                <th>Id</th>
+                <th>Nom_post</th>
+                <th>Img_post</th>
+                <th>Description_post</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for post in posts %}
+            <tr>
+                <td>{{ post.id }}</td>
+                <td>{{ post.nom}}</td>
+                 <td><img src={{asset('uploads/images/'~post.getImgPost()) }} style="width:150px"  ></td>
+                </td>
+                <td >{{ post.getDescriptionPost()|slice(0, 40)}}</td>
+               
+                <td>
+                  <button class="btn btn-light">   <a href="{{ path('post_show', {'id': post.id}) }}">show</a> </button>
+                   <button class="btn btn-light">  <a href="{{ path('post_edit', {'id': post.id}) }}">edit</a> </button>
+                </td>
+            </tr>
+			{% else %}
+				<tr>
+					<td colspan="5">no records found</td>
+				</tr>
+			{% endfor %}
+           
+		</tbody>
+	</table>
+{{ knp_pagination_render(posts) }}
+  <button class="btn btn-light">   <a href="{{ path('post_new') }}">Create new</a> <button class="btn btn-light">
+
+{% endblock %}

@@ -1,0 +1,84 @@
+{% extends ('basefront/base.html.twig') %}
+
+{% block title %} Reclamations
+{% endblock %}
+
+
+{% block body %}
+
+<br>
+	<h1 style="text-align:center;">Reclamations</h1>
+	<br>
+	<a style="margin-left: 40px" class="btn btn-primary" id="btn-1" </a>
+			<input  id="myInput"  type="text" placeholder="Rechercher..." style="float:right;" >
+			<br>
+			<br>
+			<br>
+			
+	<table  class="table table-striped">
+		<thead>
+			<tr>
+				<th>Num reclamation</th>
+				<th>Description reclamation</th>
+				<th>Date reclamation</th>
+				<th>Etat reclamation</th>
+
+				<th></th>
+			</tr>
+		</thead>
+				
+		<tbody  id="myTable">
+			{% for reclamation in reclamations %}
+				<tr>
+				<td>{{ reclamation.id }}</td>
+					<td>{{ reclamation.descriptionReclamation }}</td>
+				<td>{{ reclamation.dateReclamation ? reclamation.dateReclamation|date('Y-m-d') : '' }}</td>
+				<td>{{ reclamation.etatReclamation }}</td>
+
+					<div>
+						<td>
+
+							<a href="{{ path('reclamation_showFront', {'id': reclamation.id}) }}" class="btn btn-primary">Consulter</a>
+
+							<a href="{{ path('reclamation_editFront', {'id': reclamation.id}) }}" class="btn btn-primary">Modifier</a>
+
+								
+						{#	<a href="{{ path('reclamation_search')}}" class="btn btn-primary">Search</a>
+
+							
+
+							<a class="btn btn-outline-primary px-4" href="{{ path('reclamation_newFront') }}">reclam</a> #}
+
+
+						</td>
+					</div>
+				</tr>
+			{% else %}
+				<tr>
+					<td colspan="5">no records found</td>
+				</tr>
+			{% endfor %}
+		
+		</tbody>
+		
+	</table>
+	 
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+        $(document).ready(function(){
+            $("#myInput").on("keyup", function() {
+                var value = $(this).val().toLowerCase();
+                $("#myTable tr").filter(function() {
+                    $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+                });
+            });
+        });
+    </script>
+
+						
+	<div class="navigation" style="size:5%">
+            {{ knp_pagination_render(reclamations) }}
+        </div>
+		<br>
+{% endblock %}

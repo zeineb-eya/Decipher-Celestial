@@ -1,0 +1,58 @@
+{% block body %}
+	<h1 align ="center">Liste des reclamations</h1>
+
+<br>
+<br>
+<div class="container">
+<div class="table-responsive">
+	<table class="basic-table table-headers table table-hover" >
+		<thead>
+			<tr>
+				<th>Id reclamation</th>
+				<th>Description reclamation</th>
+				<th>Date reclamation</th>
+				<th>User</th>
+				{#<th>etat reclamation</th>#}
+
+				<th>Etat reclamation</th>
+			</tr>
+		</thead>
+		<tbody id="myTable">
+			{% for reclamation in reclamations %}
+				<tr>
+					<td>{{ reclamation.id }}</td>
+					<td>{{ reclamation.descriptionReclamation }}</td>
+					<td>{{ reclamation.dateReclamation ? reclamation.dateReclamation|date('Y-m-d') : '' }}</td>
+					
+					<td>{{ reclamation.user }}</td>
+					<td>{{ reclamation.etatReclamation }}</td>
+					
+					
+				</tr>
+			{% else %}
+				<tr>
+					<td colspan="5">no records found</td>
+				</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+	</div>
+	</div>
+<style>
+table {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+  
+}
+
+td, th {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 8px;
+}
+
+tr:nth-child(even) {
+  background-color: #dddddd;
+}
+{% endblock %}

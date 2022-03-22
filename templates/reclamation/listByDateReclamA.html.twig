@@ -1,0 +1,29 @@
+{% extends ('baseback/base.html.twig') %}
+
+
+{% block title %}Reclamtions by date{% endblock %}
+
+{% block body %}
+<table class="table" border="2">
+    <tr>
+        <td>ID</td>
+        <td>Email user</td>
+        <td>Details reclamation</td>
+        <td>Date reclamation</td>
+        <td>Action</td>
+    </tr>
+    {% for reclamation in reclamationsByDateA %}
+        <tr>
+            <td>{{ reclamation.id }}</td>
+            <td>{{ reclamation.user }}</td>
+            <td>{{ reclamation.descriptionReclamation }}</td>
+            <td>{{ reclamation.dateReclamation ? reclamation.dateReclamation|date('Y-m-d') : '' }}</td>
+            
+
+            <td><a href="{{ path('reclamation_show', {'id': reclamation.id}) }}">Consulter</a>
+                    </td>
+        </tr>
+    {% endfor %}
+</table>
+
+{% endblock %}

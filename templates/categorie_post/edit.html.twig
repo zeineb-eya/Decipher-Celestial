@@ -1,0 +1,15 @@
+
+{% extends ('base_back_f/basebackF.html.twig') %}
+{% block title %}Edit CategoriePost
+{% endblock %}
+
+
+{% block body %}
+    <h1>Edit CategoriePost</h1>
+
+    {{ include('categorie_post/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('categorie_post_index') }}">back to list</a>
+
+    {{ include('categorie_post/_delete_form.html.twig') }}
+{% endblock %}

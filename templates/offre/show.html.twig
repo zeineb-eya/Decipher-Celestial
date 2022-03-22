@@ -1,0 +1,52 @@
+{% extends ('base_back_f/basebackF.html.twig') %}
+{% block title %}Offre
+{% endblock %}
+
+{% block body %}
+	<h1>Offre</h1>
+
+	<table class="table">
+		<tbody>
+			<tr>
+				<th>Id</th>
+				<td>{{ offre.id }}</td>
+			</tr>
+			<tr>
+				<th>Offre</th>
+				<td>{{ offre.nomOffre }}</td>
+			</tr>
+			<tr>
+				<th>Details de l'offre</th>
+				<td>{{ offre.descriptionOffre }}</td>
+			</tr>
+			<tr>
+				<th>Prix</th>
+				<td>{{ offre.prixOffre }}TND</td>
+			</tr>
+
+				<tr>
+				<th>Date debut Offre</th>
+					<td> {{ offre.dateDebutOffre  ? offre.dateDebutOffre |date('Y-m-d') : '' }} </td>
+				
+			</tr>
+				<tr>
+				<th>Date fin Offre</th>
+				<td> {{ offre.dateFinOffre  ? offre.dateFinOffre |date('Y-m-d') : '' }} </td>
+		
+			</tr>
+		
+			<tr>
+				<th>Reduction </th>
+				<td>{{ offre.reduction }} %</td>
+			</tr>
+		</tbody>
+	</table>
+	<td>
+		<a href="{{ path('offre_index') }}" class="btn btn-primary" style="float:right;">Retour </a>
+
+		<a href="{{ path('offre_edit', {'id': offre.id}) }}" class="btn btn-primary" style="float:right;margin-right: 20px;">Modifier</a>
+
+		{{ include('offre/_delete_form.html.twig') }} 
+	
+		<td>
+		{% endblock %}

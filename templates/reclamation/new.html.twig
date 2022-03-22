@@ -1,0 +1,14 @@
+{% extends ('basefront/base.html.twig') %}
+{% block title %}Réclamer
+{% endblock %}
+
+
+{% block body %}
+<br>
+	<h1 style="text-align:center">Réclamer</h1>
+
+	{{include('reclamation/_form.html.twig')}}
+	<a href="{{ path('reclamation_indexreclamFront') }}" class="btn btn-primary"  </a>
+		Retour</a>
+		
+{% endblock %}

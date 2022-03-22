@@ -1,0 +1,105 @@
+{% extends ('basefront/base.html.twig') %}
+
+
+{% block title %}Reservations by Order{% endblock %}
+
+{% block body %}
+<table class="table" border="2">
+<td><a href="{{ path('listReservationByDatefront') }}">List Reservation By Date</a></td>
+<td><a href="{{ path('listReservationByMailfront') }}">List Reservation By Mail</a></td>
+<td><a href="{{ path('listReservationByEtatfront') }}">List Reservation By Etat</a></td>
+ <td><a href="{{ path('reservation_front') }}">back to list</a></td>
+</table>
+
+{% if app.request.get('_route') == 'listReservationByDatefront' %}
+ 
+
+<h1>Reservations by date order By date</h1>
+<table class="table" border="2">
+    <tr>
+        <th>ID</th>
+        <th>User Full Name</th>
+      
+        <th>Reservation date</th>
+        <th>Etat</th>
+        <th>Billet</th>
+        <th>Action</th>
+    </tr>
+    {% for reservation in reservationsByDate %}
+        <tr>
+            <td>{{ reservation.id }}</td>
+             <td>{{ reservation.user.prenomUtilisateur }} {{ reservation.user.nomUtilisateur }}</td>
+             
+            <td>{{ reservation.dateReservation ? reservation.dateReservation|date('Y-m-d') : '' }}</td>
+              <td>{{ reservation.etatReservation }}</td>
+            <td>{{ reservation.billet.id }}</td>
+            <td><a href="{{ path('reservationfront_show', {'id': reservation.id}) }}">show</a>
+            <a href="{{ path('reservation_edit', {'id': reservation.id}) }}">edit</a>
+                     <a href="{{ path('ReservationBillet', {'id': reservation.id}) }}">Ticket</a>
+                       <a href="{{ path('cancelreservation', {'id': reservation.id}) }}">Cancel</a>
+                    </td>
+        </tr>
+    {% endfor %}
+</table>
+{% elseif app.request.get('_route') == 'listReservationByMailfront' %}
+    
+<h1>Reservations by date order By Mail</h1>
+<table class="table" border="2">
+    <tr>
+      <th>ID</th>
+        <th>User Full Name</th>
+        <th>User Email</th>
+        <th>Reservation date</th>
+        <th>Etat</th>
+        <th>Billet</th>
+        <th>Action</th>
+    </tr>
+    {% for reservation in reservationsByMail %}
+         <tr>
+            <td>{{ reservation.id }}</td>
+            <td>{{ reservation.user.prenomUtilisateur }} {{ reservation.user.nomUtilisateur }}</td>
+              
+            <td>{{ reservation.dateReservation ? reservation.dateReservation|date('Y-m-d') : '' }}</td>
+              <td>{{ reservation.etatReservation }}</td>
+            <td>{{ reservation.billet.id }}</td>
+            <td><a href="{{ path('reservationfront_show', {'id': reservation.id}) }}">show</a>
+            <a href="{{ path('reservation_edit', {'id': reservation.id}) }}">edit</a>
+                     <a href="{{ path('ReservationBillet', {'id': reservation.id}) }}">Ticket</a>
+                       <a href="{{ path('cancelreservation', {'id': reservation.id}) }}">Cancel</a>
+                  </td>
+        </tr>
+    {% endfor %}
+</table>
+{% elseif app.request.get('_route') == 'listReservationByEtatfront' %}
+    
+
+<h1>Reservations by date order By Etat</h1>
+<table class="table" border="2">
+    <tr>
+          <th>ID</th>
+        <th>User Full Name</th>
+        <th>User Email</th>
+        <th>Reservation date</th>
+        <th>Etat</th>
+        <th>Billet</th>
+        <th>Action</th>
+    </tr>
+    {% for reservation in reservationsByEtat %}
+         <tr>
+            <td>{{ reservation.id }}</td>
+            <td>{{ reservation.user.prenomUtilisateur }} {{ reservation.user.nomUtilisateur }}</td>
+                
+            <td>{{ reservation.dateReservation ? reservation.dateReservation|date('Y-m-d') : '' }}</td>
+              <td>{{ reservation.etatReservation }}</td>
+            <td>{{ reservation.billet.id }}</td>
+            <td><a href="{{ path('reservationfront_show', {'id': reservation.id}) }}">show</a>
+             <a href="{{ path('reservation_edit', {'id': reservation.id}) }}">edit</a>
+                     <a href="{{ path('ReservationBillet', {'id': reservation.id}) }}">Ticket</a>
+                       <a href="{{ path('cancelreservation', {'id': reservation.id}) }}">Cancel</a>
+                  </td>
+        </tr>
+    {% endfor %}
+</table>
+{% endif %}
+
+{% endblock %}

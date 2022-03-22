@@ -1,0 +1,25 @@
+
+{% block body %}
+ {% for post in postes %}
+<h1 align="center">PostDetail</h1>
+<section id="works">
+      <div class="container-fluid px-0">
+        <div class="row align-items-stretch">
+          <div class="col-lg-6 half-page-banner bg-cover"  style=" background: url({{asset('uploads/images/'~post.getImgPost())}})"></div>
+          <div class="col-lg-6 bg-light py-lg-5">
+            <div class="h-100 d-flex flex-column p-5 justify-content-center">
+              <p class="text-serif text-primary mb-0">Title:</p>
+              <h2 class="text-uppercase">{{post.getNom()}}</h2>
+              <p class="text-muted">{{post.getDescriptionPost()}}</p>
+              <p class="text-uppercase">Comments : </p>
+             <div >
+             </div></br >
+              <p class="text-serif text-primary text-small mb-0">Lead blogger</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+     
+ {% endfor %}
+{% endblock %}

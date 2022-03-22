@@ -1,0 +1,38 @@
+{% extends ('baseback/base.html.twig') %}
+
+
+{% block title %}Offres by Reduction{% endblock %}
+
+{% block body %}
+<table class="table" border="2">
+    <tr>
+                 <td>Id</td>
+				<td>Nom offre</td>
+				<td>Details de l'offre</td>
+				<td>Prix</td>
+				<td>Date debut offre</td>
+                <td>Date fin offre</td>
+				<td>Reduction</td>
+			{#}	<td>ID Planning</td>#}
+    </tr>
+    {% for offre in offresByReduction %}
+        <tr>
+
+                	<td>{{ offre.id }}</td>
+					<td>{{ offre.nomOffre }}</td>
+					<td>{{ offre.descriptionOffre }}</td>
+					<td>{{ offre.prixOffre }} TND</td>
+                    <td> {{ offre.dateFinOffre  ? offre.dateFinOffre |date('Y-m-d') : '' }} </td>
+                    <td> {{ offre.dateFinOffre  ? offre.dateFinOffre |date('Y-m-d') : '' }} </td>
+					
+					<td>{{ offre.reduction }} %</td>
+					{#<td>{{ offre.planning }}</td>#}
+            
+
+            <td><a href="{{ path('offre_showFront', {'id': offre.id}) }}">Afficher</a>
+                    </td>
+        </tr>
+    {% endfor %}
+</table>
+
+{% endblock %}

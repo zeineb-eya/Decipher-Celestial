@@ -1,0 +1,44 @@
+{% extends ('basefront/base.html.twig') %}
+
+
+{% block title %}Offres by date{% endblock %}
+
+{% block body %}
+<br>
+<table  class="table table-striped">
+   	<thead >
+    <tr>
+                 <td>Id</td>
+				<td>Nom offre</td>
+				<td>Description offre</td>
+				<td>Prix</td>
+				<td>Date debut offre</td>
+                <td>Date fin offre</td>
+				<td>Reduction</td>
+				{#<td>ID Planning</td>#}
+    </tr>
+    	</thead>
+        <tbody  id="myTable">
+    {% for offre in offresByReduction %}
+        <tr>
+
+                	<td>{{ offre.id }}</td>
+					<td>{{ offre.nomOffre }}</td>
+					<td>{{ offre.descriptionOffre }}</td>
+					<td>{{ offre.prixOffre }} TND</td>
+                    <td> {{ offre.dateFinOffre  ? offre.dateFinOffre |date('Y-m-d') : '' }} </td>
+                    <td> {{ offre.dateFinOffre  ? offre.dateFinOffre |date('Y-m-d') : '' }} </td>
+					
+					<td>{{ offre.reduction }} %</td>
+				{#}	<td>{{ offre.planning }}</td>#}
+            
+<div>
+            <td><a href="{{ path('offre_showFront', {'id': offre.id}) }}">Afficher</a>
+                    </td>
+                    </div>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+<br>
+{% endblock %}

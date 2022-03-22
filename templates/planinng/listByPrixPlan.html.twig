@@ -1,0 +1,37 @@
+{% extends ('baseback/base.html.twig') %}
+
+
+{% block title %}Plaaninngs by Prix{% endblock %}
+
+{% block body %}
+<table class="table" border="2">
+    <tr>
+                 <td>Id</td>
+				<td>Nom</td>
+				<td>DateDebut</td>
+				<td>DateFin</td>
+				<td>Destination</td>
+				<td>Description</td>
+				<td>Periode</td>
+				<td>Prix</td>
+				<td>actions</td>
+    </tr>
+    {% for planinng in planinngsByPrix %}
+        <tr>
+          <td>{{ planinng.id }}</td>
+					<td>{{ planinng.nomPlanning }}</td>
+					<td>{{ planinng.dateDebutPlanning ? planinng.dateDebutPlanning|date('Y-m-d') : '' }}</td>
+					<td>{{ planinng.dateFinPlanning ? planinng.dateFinPlanning|date('Y-m-d') : '' }}</td>
+					<td>{{ planinng.destinationPlanning }}</td>
+					<td>{{ planinng.descriptionPlanning }}</td>
+					<td>{{ planinng.periodePlanning }}</td>
+					<td>{{ planinng.prixPlanning }}</td>
+					<td>
+						<a href="{{ path('planinng_show', {'id': planinng.id}) }}">show</a>
+					</td>
+        </tr>
+    {% endfor %}
+	
+</table>
+
+{% endblock %}

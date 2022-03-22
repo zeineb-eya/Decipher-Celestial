@@ -1,0 +1,53 @@
+{% extends ('base_back_f/basebackF.html.twig') %}
+{% block title %}Gestion des Reclamations
+{% endblock %}
+
+
+{% block body %}
+	<h1>Gestion des reclamations</h1>
+
+	<a href="{{ path('listReclamByDate') }}" class="btn btn-primary" style="float:right;">Trier Reclamation par Date</a>
+
+
+	{#<a href="{{ path('traiter', {'id': reclamation.id}) }}" class="btn btn-primary">Traiter</a>#}
+<br>
+<br>
+
+	<table class="table">
+		<thead>
+			<tr>
+				<th>Id reclamation</th>
+				<th>Description reclamation</th>
+				<th>Date reclamation</th>
+				<th>User</th>
+				{#<th>etat reclamation</th>#}
+
+				<th></th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for reclamation in reclamations %}
+				<tr>
+					<td>{{ reclamation.id }}</td>
+					<td>{{ reclamation.descriptionReclamation }}</td>
+					<td>{{ reclamation.dateReclamation ? reclamation.dateReclamation|date('Y-m-d') : '' }}</td>
+					
+					<td>{{ reclamation.user }}</td>
+					<td>{{ reclamation.etatReclamation }}</td>
+					<div>
+						<td>
+							<a href="{{ path('reclamation_show', {'id': reclamation.id}) }}" class="btn btn-primary">consulter</a>
+
+<a href="{{ path( "traiter" , {'id': reclamation.id} ) }}"> Traiter </a>
+						</td>
+					</div>
+				</tr>
+			{% else %}
+				<tr>
+					<td colspan="5">no records found</td>
+				</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+
+{% endblock %}

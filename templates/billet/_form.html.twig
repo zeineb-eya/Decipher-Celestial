@@ -1,0 +1,42 @@
+{{ form_start(form,{'attr': {'novalidate': 'novalidate'}} ) }}
+   {# {{ form_widget(form) }}
+    {{ form_errors(form) }} #}
+   
+	<div class="input-field col s12 m12 l12">
+	{{ form_label(form.chair_billet,"Chair") }}
+    {{ form_widget(form.chair_billet, {'attr': {'placeholder': 'Chair'}}) }}
+	
+	</div>
+	<br>
+	<div class="input-field col s12 m6 l6">
+	{{ form_label(form.voyage_num,"Voyage num") }}
+    {{ form_widget(form.voyage_num, {'attr': {'placeholder': 'Voyage num'}}) }}
+	
+	</div>
+<br>	
+	<div class="input-field col s12 m12 l12">
+		{{ form_label(form.terminal,"Terminal") }}
+		{{ form_widget(form.terminal, {'attr': {'placeholder': 'Terminal'}}) }}
+		
+	</div>
+<br>
+	<div class="input-field col s12 m12 l12">
+	{{ form_label(form.portail,"Portail") }}
+    {{ form_widget(form.portail, {'attr': {'placeholder': 'Portail'}}) }}
+	
+	</div>
+<br>
+	<div class="input-field col s12 m12 l12">
+	{{ form_label(form.embarquement,"Embarquement") }}
+    {{ form_widget(form.embarquement, {'attr': {'placeholder': 'Embarquement'}}) }}
+	
+	</div>
+<br>
+	<div class="input-field col s12 m12 l12">
+	{{ form_label(form.localisation,"Localisation") }}
+    {{ form_widget(form.localisation, {'attr': {'placeholder': 'Localisation'}}) }}
+	
+    </div>
+<br>
+    <button class="btn">{{ button_label|default('Save') }}</button>
+{{ form_end(form) }}

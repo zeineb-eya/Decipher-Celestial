@@ -1,0 +1,50 @@
+{% extends ('baseback/base.html.twig') %}
+{% block title %}Billet index{% endblock %}
+
+
+{% block body %}
+    <h1>Billet index</h1>
+
+    <table class="table" border="2">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>localisation</th>
+          
+                <th>Embarquement</th>
+                <th>Chair_billet</th>
+                <th>Voyage_num</th>
+                <th>Terminal</th>
+                <th>Portail</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for billet in billets %}
+            <tr>
+                <td>{{ billet.id }}</td>
+                <td>{{ billet.localisation }}</td>
+          
+                <td>{{ billet.embarquement ? billet.embarquement|date('Y-m-d') : '' }}</td>
+                <td>{{ billet.chairBillet }}</td>
+                <td>{{ billet.voyageNum }}</td>
+                <td>{{ billet.terminal }}</td>
+                <td>{{ billet.portail }}</td>
+                
+                <td>
+                    <a href="{{ path('billet_show', {'id': billet.id}) }}">show</a>
+                    <a href="{{ path('billet_edit', {'id': billet.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="7">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+<div class="navigation">
+            {{ knp_pagination_render(billets) }}
+        </div>
+    <a href="{{ path('billet_new') }}">Create new</a>
+{% endblock %}

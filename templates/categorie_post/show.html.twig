@@ -1,0 +1,28 @@
+{% extends ('base_back_f/basebackF.html.twig') %}
+
+
+{% block title %} categorie_post
+{% endblock %}
+
+{% block body %}
+    <h1>CategoriePost</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ categorie_post.id }}</td>
+            </tr>
+            <tr>
+                <th>Nom_categorie_post</th>
+                <td>{{ categorie_post.nomCategoriePost }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('categorie_post_index') }}">back to list</a>
+
+    <a href="{{ path('categorie_post_edit', {'id': categorie_post.id}) }}">edit</a>
+
+    {{ include('categorie_post/_delete_form.html.twig') }}
+{% endblock %}

@@ -1,0 +1,56 @@
+
+{% block body %}
+<html lang="en">
+<head>
+	<title>Login V2</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+<!--===============================================================================================-->	
+	<link rel="icon" type="image/png" href="login/images/icons/favicon.ico"/>
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="login/vendor/bootstrap/css/bootstrap.min.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="login/css/util.css">
+	<link rel="stylesheet" type="text/css" href="login/css/main.css">
+<!--===============================================================================================-->
+</head>
+<body>
+	
+	<div class="limiter">
+		<div class="container-login100" style="background-image: url('login/images/bg-01.jpg');">
+			<div class="wrap-login100">
+					<span class="login100-form-title p-b-26">
+						FORGOT YOUR PASSWORD?
+					</span>
+    {% for flashError in app.flashes('reset_password_error') %}
+        <div class="alert alert-danger" role="alert">{{ flashError }}</div>
+    {% endfor %}
+<div style="color:grey">
+    {{ form_start(requestForm) }}
+        {{ form_row(requestForm.mail_utilisateur) }}
+        <div>
+            <small>
+                Enter your email address and we will send you a
+                link to reset your password.
+            </small>
+        </div>
+<div class="container-login100-form-btn">
+						<div class="wrap-login100-form-btn">
+							<div class="login100-form-bgbtn"></div>
+							<button type="submit" class="login100-form-btn">
+								Send password reset email
+							</button>
+						</div>
+					</div>
+    {{ form_end(requestForm) }}
+    </div>
+				</form>
+			</div>
+		</div>
+	</div>
+	<div id="dropDownSelect1"></div>	
+<!--===============================================================================================--
+<!--===============================================================================================-->
+</body>
+</html>
+{% endblock %}
