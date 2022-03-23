@@ -116,18 +116,22 @@ class ReservationController extends AbstractController
         $reservation->setBillet($billet);
         $reservation->setDateReservation($date_reservation);
 
+        $em->persist($reservation);
         $em->flush();
-        $jsonContent= $serilazer->serialize($reservation,'json',['groups'=>"reservationt:read"]);
+        $jsonContent= $serilazer->serialize($reservation,'json',['groups'=>"reservation:read"]);
         return new Response(json_encode($jsonContent));;
     }
     /**
-     * @Route("/DetailReservations/json/{id}", name="DetailReservations")
+     * @Route("/DetailReservations/json/{id}/{user}", name="DetailReservations")
      */
-    public function DetailReservationsJSON(Request $request,SerializerInterface $serilazer,$id):Response
+    public function DetailReservationsJSON(Request $request,SerializerInterface $serilazer,$id/*, User $user*/):Response
     {
         $em = $this->getDoctrine()->getManager();
+        
+      // $user= $em->getRepository(User::class)->find($user);
         $reservation= $em->getRepository(Reservation::class)->find($id);
-       $json= $serilazer->serialize($reservation,'json',['groups'=>"billet:read"]);
+        $user = $this->getUser();
+        $json= $serilazer->serialize($reservation,'json',['groups'=>"reservation:read"]);
         return new JsonResponse($json,200,[],true);
     }
 
@@ -137,6 +141,7 @@ class ReservationController extends AbstractController
     public function DeleteBilletsJSON(Request $request,SerializerInterface $serilazer,$id)
     {
         $em = $this->getDoctrine()->getManager();
+        $user = $this->getUser();
         $reservation = $em->getRepository(Reservation::class)->find($id);
         $em->remove($billet);
         $em->flush();

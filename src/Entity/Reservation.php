@@ -32,12 +32,14 @@ class Reservation
     /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="reservations")
      * @ORM\JoinColumn(nullable=false)
+     * @Groups("reservation:read")
      */
     private $user;
 
     /**
      * @ORM\ManyToOne(targetEntity=Billet::class, inversedBy="reservation")
      * @ORM\JoinColumn(nullable=false)
+     * @Groups("reservation:read")
      */
     private $billet;
 
