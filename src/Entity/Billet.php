@@ -97,7 +97,7 @@ class Billet
     public function __construct()
     {
         $this->reservation = new ArrayCollection();
-        $this->embarquement = new \DateTime('now');
+        $this->embarquement = new \DateTime('Tomorrow');
     }
 
     public function getId(): ?int

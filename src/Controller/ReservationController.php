@@ -89,6 +89,7 @@ class ReservationController extends AbstractController
         $reservation->setUser($user);
         $reservation->setBillet($billet);
         $reservation->setDateReservation($date_reservation);
+        $reservation->setEtatReservation($request->get('Etat_reservation'));
 
         $em->persist($reservation);
         $em->flush();
@@ -115,6 +116,7 @@ class ReservationController extends AbstractController
         $reservation->setUser($user);
         $reservation->setBillet($billet);
         $reservation->setDateReservation($date_reservation);
+        $reservation->setEtatReservation($request->get('Etat_reservation'));
 
         $em->persist($reservation);
         $em->flush();

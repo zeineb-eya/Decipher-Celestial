@@ -82,7 +82,7 @@ class BilletController extends AbstractController
         $billet->setChairBillet($request->get('chair_billet'));
         $billet->setVoyageNum($request->get('voyage_num'));
         $billet->setTerminal($request->get('terminal'));
-        $billet->setPortail($request->get('portrail'));
+        $billet->setPortail($request->get('portail'));
         $billet->setEmbarquement($embarquement);
         $billet->setLocalisation($localisation);
 
@@ -110,7 +110,7 @@ class BilletController extends AbstractController
         $billet->setChairBillet($request->get('chair_billet'));
         $billet->setVoyageNum($request->get('voyage_num'));
         $billet->setTerminal($request->get('terminal'));
-        $billet->setPortail($request->get('portrail'));
+        $billet->setPortail($request->get('portail'));
         $billet->setEmbarquement($embarquement);
         $billet->setLocalisation($localisation);
         $em->flush();
