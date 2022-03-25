@@ -140,12 +140,12 @@ class ReservationController extends AbstractController
     /**
      * @Route("/DeleteReservations/json/{id}", name="DeleteReservations")
      */
-    public function DeleteBilletsJSON(Request $request,SerializerInterface $serilazer,$id)
+    public function DeleteReservationsJSON(Request $request,SerializerInterface $serilazer,$id)
     {
         $em = $this->getDoctrine()->getManager();
         $user = $this->getUser();
         $reservation = $em->getRepository(Reservation::class)->find($id);
-        $em->remove($billet);
+        $em->remove($reservation);
         $em->flush();
         $jsonContent= $serilazer->serialize($reservation,'json',['groups'=>"reservation:read"]);
         return new Response(json_encode($jsonContent));;
