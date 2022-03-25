@@ -21,6 +21,13 @@ use Dompdf\Options;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
+
+use Symfony\Component\Serializer\Encoder\JsonEncoder;
+use Symfony\Component\Serializer\Encoder\XmlEncoder;
+use Symfony\Component\Serializer\Serializer;
+
+use Symfony\Component\Serializer\Normalizer\DateTimeNormalizer;
 // Include paginator interface
 use Knp\Component\Pager\PaginatorInterface;
 
@@ -149,6 +156,39 @@ class ReservationController extends AbstractController
         $em->flush();
         $jsonContent= $serilazer->serialize($reservation,'json',['groups'=>"reservation:read"]);
         return new Response(json_encode($jsonContent));;
+    }
+    /**
+     * @Route("/listReservationByDate/api/showOrdered", name="api_Reservations_showOrderedByDate")
+     */
+    public function showOrderedReservationsByDate(ReservationRepository $rep,SerializerInterface $serilazer):Response
+    {
+        $reservationsByDate = $rep->orderByDate();
+
+        $serializer = new Serializer([new DateTimeNormalizer(), new ObjectNormalizer()]);
+       $json= $serilazer->serialize($reservationsByDate,'json',['groups'=>"reservation:read"]);
+        return new JsonResponse($json,200,[],true);
+    }
+    /**
+     * @Route("/listReservationByMail/api/showOrdered", name="api_Reservations_showOrderedByMail")
+     */
+    public function showOrderedReservationsByMail(ReservationRepository $rep,SerializerInterface $serilazer):Response
+    {
+        $reservationsByDate = $rep->orderByMail();
+
+        $serializer = new Serializer([new DateTimeNormalizer(), new ObjectNormalizer()]);
+       $json= $serilazer->serialize($reservationsByDate,'json',['groups'=>"reservation:read"]);
+        return new JsonResponse($json,200,[],true);
+    }
+    /**
+     * @Route("/listReservationByEtat/api/showOrdered", name="api_Reservations_showOrderedByEtat")
+     */
+    public function showOrderedReservationsByEtat(ReservationRepository $rep,SerializerInterface $serilazer):Response
+    {
+        $reservationsByDate = $rep->orderByEtat();
+
+        $serializer = new Serializer([new DateTimeNormalizer(), new ObjectNormalizer()]);
+       $json= $serilazer->serialize($reservationsByDate,'json',['groups'=>"reservation:read"]);
+        return new JsonResponse($json,200,[],true);
     }
     /*****************************************************************************************************/
 

@@ -147,5 +147,16 @@ class ReservationRepository extends ServiceEntityRepository
             ->setParameter('str', '%'.$str.'%')
             ->getResult();
     }
+    public function findByid($value)
+    {
+        $value = "%".$value."%" ;
+        return $this->createQueryBuilder('r')
+            ->andWhere("r.id like :val ")
+            ->setParameter('val', $value)
+            ->orderBy('r.id', 'ASC')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
  
 }
