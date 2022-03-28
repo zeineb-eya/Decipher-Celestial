@@ -19,7 +19,12 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Email;
 use Symfony\Flex\Unpack\Result;
-
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
+use Symfony\Component\Serializer\SerializerInterface;
+use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
+use Symfony\Component\Serializer\Serializer;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 
 /**
  * @Route("/localisation")
@@ -78,6 +83,111 @@ class LocalisationController extends AbstractController
             'localisation' => $localisation,
         ]);
     }
+
+
+    /////////////////////////////////////JSON//////////
+//Affichage ///
+
+
+
+/**
+     * @Route("/AllLocalisations", name="AllLocalisations")
+     */
+    public function JSONindex(LocalisationRepository $LocalisationRepository, SerializerInterface $serializer): Response
+    {
+        $result = $LocalisationRepository->findAll();
+        $json = $serializer->serialize($result, 'json', ['groups' => 'Localisation:read']);
+        return new JsonResponse($json, 200, [], true);
+    }
+
+
+       ///////////AjoutJson////////////////
+    
+/**
+     * @Route("/ajoutLocalisationjson", name="ajoutLocalisationjson")
+     */
+    public function ajoutLocalisationjson(Request $request, SerializerInterface $serilazer, EntityManagerInterface $em)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $localisation = new Localisation();
+        $heureDepart_localisation  = new \DateTime("now"); 
+        $heureArrivee_loacalisation  = new \DateTime("now"); 
+        $localisation->setPositionDepartLocalisation($request->get('positionDepart_localisation'));
+        $localisation->setPositionAriveePlanning($request->get('positionArivee_planning'));
+        $localisation->setFusee($request->get('fusee'));
+        $localisation->setHeureDepartLocalisation($heureDepart_localisation);
+        $localisation->setHeureArriveeLoacalisation($heureArrivee_loacalisation);
+        $em->persist($localisation);
+        $em->flush();
+
+        $jsonContent = $serilazer->serialize($localisation, 'json', ['groups' => "Localisation:read"]);
+        return new Response(json_encode($jsonContent));
+    }
+
+
+/////////////delete JSON///////////////
+/**
+     * @Route("/deleteLocalisationjson", name="delete_localisationjson")
+     * @Method("DELETE")
+     */
+
+    public function deleteLocalisationjson(Request $request)
+    {
+        $id = $request->get("id");
+
+        $em = $this->getDoctrine()->getManager();
+        $localisation = $em->getRepository(Localisation::class)->find($id);
+        if ($localisation != null) {
+            $em->remove($localisation);
+            $em->flush();
+
+            $serialize = new Serializer([new ObjectNormalizer()]);
+            $formatted = $serialize->normalize("Localisation supprime avec succes");
+            return new JsonResponse($formatted);
+        }
+        return new JsonResponse("id de localisation est invalide");
+    }
+
+
+
+    ///////////////////////update///////
+
+     /**
+     * @Route("/modifLocalisationjson/{id}", name="modifLocalisationjson")
+     */
+    public function modifLocalisationjson(Request $request, SerializerInterface $serilazer, $id)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $localisation = $em->getRepository(Localisation::class)->find($id);
+        //  $user = $em->getRepository(User::class)->find($user_id);
+        $heureDepart_localisation  = new \DateTime("now"); 
+        $heureArrivee_loacalisation  = new \DateTime("now"); 
+        $localisation->setPositionDepartLocalisation($request->get('positionDepart_localisation'));
+        $localisation->setPositionAriveePlanning($request->get('positionArivee_planning'));
+        $localisation->setFusee($request->get('fusee'));
+        $localisation->setHeureDepartLocalisation($heureDepart_localisation);
+        $localisation->setHeureArriveeLoacalisation($heureArrivee_loacalisation);
+
+        $em->persist($localisation);
+        $em->flush();
+        $jsonContent = $serilazer->serialize($localisation, 'json', ['groups' => "Localisation:read"]);
+        return new Response(json_encode($jsonContent));;
+    }
+////////////////////////detail///////
+/**
+     * @Route("/detailLocalisationjson/{id}", name="detailLocalisationjson")
+     */
+    public function detailLocalisationjson(Request $request, SerializerInterface $serilazer, $id): Response
+    {
+        $user = $request->get("id");
+
+        $em = $this->getDoctrine()->getManager();
+        $localisation = $em->getRepository(Localisation::class)->find($id);
+        $json = $serilazer->serialize($localisation, 'json', ['groups' => "Localisation:read"]);
+        return new JsonResponse($json, 200, [], true);
+    }
+
 
 
 /**

@@ -6,6 +6,7 @@ use App\Repository\OffreRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Validator\Context\ExecutionContextInterface;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass=OffreRepository::class)
@@ -16,6 +17,7 @@ class Offre
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+       * @Groups("offre:read")
      */
     private $id;
    
@@ -28,6 +30,7 @@ class Offre
      * minMessage = "Le nom_offre doit comporter au moins {{ limit }} caractères",
      * maxMessage = "Le nom_offre doit comporter au plus {{ limit }} caractères"
      * )
+       * @Groups("offre:read")
      */
     private $nom_offre;
     
@@ -45,6 +48,7 @@ class Offre
      * minMessage = "Le description_offre doit comporter au moins {{ limit }} caractères",
      * maxMessage = "Le description_offre doit comporter au plus {{ limit }} caractères"
      * )
+      * @Groups("offre:read")
      */
     private $description_offre;
 
@@ -56,6 +60,7 @@ class Offre
      *     message="The value {{ value }} is not a valid {{ type }}."
      * )
      * @Assert\Positive
+     * @Groups("offre:read")
      */
     private $prix_offre;
 
@@ -64,6 +69,7 @@ class Offre
      * @ORM\Column(type="float", nullable=true)
      * 
      * @Assert\Positive
+     * @Groups("offre:read")
      */
 
     private $reduction;
@@ -77,28 +83,30 @@ class Offre
      * @Assert\LessThan("+364 days")
      * Assert\NotNull()
      *Assert\NotBlank()
+    * @Groups("offre:read")
      
      */
 
 
     private $date_debut_offre;
 
-   
+    /**
+     * @ORM\ManyToOne(targetEntity=Planinng::class, inversedBy="offres")
+     * @ORM\JoinColumn(nullable=false)
+     * @Groups("offre:read")
+     */
+    private $planning;
 
     /**
      * @ORM\Column(name="date_fin_offre", type="date", nullable=true)
      * @Assert\Date()
      * @Assert\GreaterThan("Yesterday")
      * @Assert\LessThan("+364 days")
-     
+     * Assert\NotNull()
      *Assert\NotBlank()
+     * @Groups("offre:read")
      */
     private $date_fin_offre;
-
-    /**
-     * @ORM\ManyToOne(targetEntity=Planinng::class, inversedBy="offres")
-     */
-    private $planning;
 
     /**
     * @Assert\Callback
@@ -181,7 +189,17 @@ class Offre
         return $this;
     }
 
-   
+    public function getPlanning(): ?Planinng
+    {
+        return $this->planning;
+    }
+
+    public function setPlanning(?Planinng $planning): self
+    {
+        $this->planning = $planning;
+
+        return $this;
+    }
 
     public function getDateFinOffre(): ?\DateTimeInterface
     {
@@ -191,18 +209,6 @@ class Offre
     public function setDateFinOffre(?\DateTimeInterface $date_fin_offre): self
     {
         $this->date_fin_offre = $date_fin_offre;
-
-        return $this;
-    }
-
-    public function getPlanning(): ?Planinng
-    {
-        return $this->planning;
-    }
-
-    public function setPlanning(?Planinng $planning): self
-    {
-        $this->planning = $planning;
 
         return $this;
     }

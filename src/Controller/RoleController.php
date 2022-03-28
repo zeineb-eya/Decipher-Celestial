@@ -102,20 +102,45 @@ class RoleController extends AbstractController
 
         $json= $serilazer->serialize($roles,'json',['groups'=>"post:read"]);
         return new JsonResponse($json,200,[],true);
-    }
- /**
-     * @Route("/Addroles/json", name="AddRoles")
-     */
-    public function AddRolesJSON(Request $request,NormalizerInterface $Normalizer)
-    {
-        $em = $this->getDoctrine()->getManager();
-        $Role = new Role();
-        $Role->setNomRole($request->get('nom_role'));
-        $Role->setDescriptionRole($request->get('description_role'));
-        $em->persist($Role);
-        $em->flush();
+    } 
+    /**
+    * @Route("/Addroles/json", name="AddRoles")
+    */
+   public function AddRolesJSON(Request $request,NormalizerInterface $Normalizer)
+   {
+       $em = $this->getDoctrine()->getManager();
+       $Role = new Role();
+       $Role->setNomRole($request->get('nom_role'));
+       $Role->setDescriptionRole($request->get('description_role'));
+       $em->persist($Role);
+       $em->flush();
 
-        $jsonContent= $Normalizer->normalize($Role,'json',['groups'=>"post:read"]);
-        return new Response(json_encode($jsonContent));;
-    }
+       $jsonContent= $Normalizer->normalize($Role,'json',['groups'=>"post:read"]);
+       return new Response(json_encode($jsonContent));;
+   }
+   /**
+   * @Route("/updateRoleJSON/{id}", name="updateRoleJSON")
+*/
+public function updateRoleJSON ( Request $request, NormalizerInterface $Normalizer, $id)
+
+{ 
+    $em = $this->getDoctrine()->getManager(); 
+    $Role = $em->getRepository(Role::class)->find($id);
+    $Role->setNomRole($request->get('nom_role'));
+    $Role->setDescriptionRole($request->get('description_role'));
+    $em->flush();
+    $jsonContent= $Normalizer->normalize($Role,'json',['groups'=>"post:read"]);
+    return new Response("Information updated successfully".json_encode($jsonContent));
 }
+
+/**
+* @Route("/deleteRoleJSON/{id}", name="deleteRoleJSON")
+*/
+public function deleteRoleJSON(Request $request, NormalizerInterface $Normalizer, $id)
+{$em = $this->getDoctrine()->getManager(); 
+$Role = $em->getRepository (Role::class)->find($id); 
+$em->remove($Role);
+$em->flush(); 
+$jsonContent = $Normalizer->normalize($Role, 'json',['groups'=>'post:read']); 
+return new Response ("Role deleted successfully".json_encode($jsonContent));
+}}

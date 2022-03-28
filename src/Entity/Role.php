@@ -37,18 +37,6 @@ class Role
      * @ORM\Column(type="text")
      */
     public $description_role;
-
-
-    /**
-     * @ORM\OneToMany(targetEntity=User::class, mappedBy="nom_role",cascade={"persist", "remove"})
-     */
-    private $userRoles;
-
-    /**
-     * @ORM\ManyToOne(targetEntity=Task::class, inversedBy="roles")
-     */
-    public $Description;
-
     
 
     public function __construct()

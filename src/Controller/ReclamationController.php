@@ -31,6 +31,14 @@ use Dompdf\Dompdf;
 use Dompdf\Options;
 use Knp\Component\Pager\PaginatorInterface; 
 
+
+
+use Symfony\Component\Serializer\Encoder\JsonEncoder;
+use Symfony\Component\Serializer\Encoder\XmlEncoder;
+
+
+use Symfony\Component\Serializer\Normalizer\DateTimeNormalizer;
+
 use Symfony\Flex\Unpack\Result;
 
 /**
@@ -283,20 +291,7 @@ class ReclamationController extends AbstractController
 
 
 
-    /**********************Te3 Front********************************** */
-    /**
-     * @Route("/reclamation/{id}", name="reclamation_showFront", methods={"GET"})
-     */
-    
-
-    public function showF(Reclamation $reclamation,ReclamationRepository $reclamationRepository): Response
-    {
-      //  $reclamation = $reclamationRepository->findOneByIdUser($this->getUser()->getId(), $reclamation->getId());
-        $reclamation = $reclamationRepository->findOneBy(['id' => $reclamation->getId()]);
-        return $this->render('reclamation/showFront.html.twig', [
-            'reclamation' => $reclamation,
-        ]);
-    }
+   
   
 
 /**************************** Sending Mail ****************************/
@@ -435,4 +430,178 @@ class ReclamationController extends AbstractController
 
         return $this->redirectToRoute('reclamation_indexreclamFront', [], Response::HTTP_SEE_OTHER);
     }
+     /*****************************************JSON FINAL crud********************************************************** */
+
+
+    /**********affichage JSON li temchi Finall ************** */
+    /**
+     * @Route("/AllReclamations", name="AllReclamationss")
+     */
+    public function displayReclamationjson(ReclamationRepository $ReclamationRepository, SerializerInterface $serializer): Response
+    {
+        $result = $ReclamationRepository->findAll();
+        $json = $serializer->serialize($result, 'json', ['groups' => 'reclamation:read']);
+        return new JsonResponse($json, 200, [], true);
+    }
+
+    
+
+/***************************Print*********************************** */
+
+    /**
+     * @Route("/listreclamationjson", name="listreclamationjson")
+     */
+    public function listreclamationjson(ReclamationRepository $reclamationRepository, SerializerInterface $serializer): Response
+    {
+        $pdfOptions = new Options();
+        $dompdf = new Dompdf($pdfOptions);
+
+
+        $result = $reclamationRepository->findAll();
+
+        $html = $this->renderView('reclamation/listreclamation.html.twig', [
+            'reclamations' => $result,
+        ]);
+
+        $dompdf->loadHtml($html);
+
+        $dompdf->setPaper('A4', 'portrait');
+        $dompdf->render();
+        $dompdf->stream('mypdf.pdf', [
+            "Attachment" => true
+        ]);
+
+        $json = $serializer->serialize($result, 'json', ['groups' => 'reclamation:read']);
+        return new JsonResponse($json, 200, [], true);
+      //  return new Response("the PDF file has benn succefully genrated");
+    }
+
+
+    /************** Ajout reclam  b id li njreb feha tawa w temchiii Finalll**************/
+    /**
+     * @Route("/ajoutReclamationjson/{id}", name="ajoutReclamationjson")
+     */
+    public function ajoutReclamationjson(Request $request, SerializerInterface $serilazer, EntityManagerInterface $em, User $id)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $reclamation = new Reclamation();
+        $date_reclamation = new \DateTime("now");
+        $user = $em->getRepository(User::class)->find($id);
+
+        $reclamation->setUser($user);
+        // $reclamation->setUser($user);
+        $reclamation->setDescriptionReclamation($request->get('description_reclamation'));
+         $reclamation->setEtatReclamation("envoye");
+        $reclamation->setDateReclamation($date_reclamation);
+
+        $em->persist($reclamation);
+        $em->flush();
+
+        $jsonContent = $serilazer->serialize($reclamation, 'json', ['groups' => "reclamation:read"]);
+        return new Response(json_encode($jsonContent));
+    }
+
+    /*************Supprimer json li njreb feha w temchi c'est bon******* */
+
+    /**
+     * @Route("/deleteReclamationjson", name="delete_reclamationjson")
+     * @Method("DELETE")
+     */
+
+    public function deleteReclamationJson(Request $request)
+    {
+        $id = $request->get("id");
+
+        $em = $this->getDoctrine()->getManager();
+        $reclamation = $em->getRepository(Reclamation::class)->find($id);
+        if ($reclamation != null) {
+            $em->remove($reclamation);
+            $em->flush();
+
+            $serialize = new Serializer([new ObjectNormalizer()]);
+            $formatted = $serialize->normalize("Reclamation supprime avec succes");
+            return new JsonResponse($formatted);
+        }
+        return new JsonResponse("id reclamation invalide");
+    }
+
+    /*********update reclam B USER li nnrjeb feha Finall******** */
+    /**
+     * @Route("/modifReclamationjson", name="modifReclamationjson")
+     * @Method("PUT")
+     */
+    public function modifReclamationjson(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $reclamation = $this->getDoctrine()->getManager();
+        $reclamation = $this->getDoctrine()->getManager()
+                         ->getRepository(Reclamation::class)
+                         ->find($request->get("id"));
+
+        $reclamation->setDescriptionReclamation($request->get("description_reclamation"));
+
+        $em->persist($reclamation);
+        $em->flush();
+
+         
+       // $encoder = new JsonEncoder();
+        $normalizer = new ObjectNormalizer();
+        $normalizer->setCircularReferenceHandler(function ($object) {
+            return $object->getId();
+        });
+
+       /* $serializer = new Serializer([$normalizer],[$encoder]);
+        $formatted = $serializer->normalize($reclamation);
+
+        return new JsonResponse($formatted);*/
+
+      //  return $this->json($result, Response::HTTP_OK, [], ['groups' => 'user','entreprise']);
+
+       /* $serializer = new Serializer([new ObjectNormalizer()]);
+        $formatted = $serializer->normalize($reclamation);
+*/
+       // return new JsonResponse("reclamation modifie avec succes");
+      
+        $serialize = new Serializer([new ObjectNormalizer()]);
+        $formatted = $serialize->normalize("Reclamation modifie avec succes");
+        return new JsonResponse($formatted);
+    }
+   
+
+
+    /******************Detail reclam li temchiii Finalll***** */
+
+    /**
+     * @Route("/detailReclamationjson/{id}", name="detailReclamationjson")
+     */
+    public function detailReclamationjson(Request $request, SerializerInterface $serilazer, $id): Response
+    {
+       // $user = $request->get("id");
+
+        $em = $this->getDoctrine()->getManager();
+        $reclamation = $em->getRepository(Reclamation::class)->find($id);
+       // $user = $em->getRepository(User::class)->find($user);
+        $json = $serilazer->serialize($reclamation, 'json', ['groups' => "reclamation:read"]);
+        return new JsonResponse($json, 200, [], true);
+    }
+
+     
+    
+
+    /**********************Te3 Front********************************** */
+    /**
+     * @Route("/reclamation/{id}", name="reclamation_showFront", methods={"GET"})
+     */
+
+
+    public function showF(Reclamation $reclamation, ReclamationRepository $reclamationRepository): Response
+    {
+        //  $reclamation = $reclamationRepository->findOneByIdUser($this->getUser()->getId(), $reclamation->getId());
+        $reclamation = $reclamationRepository->findOneBy(['id' => $reclamation->getId()]);
+        return $this->render('reclamation/showFront.html.twig', [
+            'reclamation' => $reclamation,
+        ]);
+    }
+    
 }

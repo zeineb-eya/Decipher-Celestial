@@ -54,6 +54,7 @@ class Reclamation
     /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="Reclamation")
      * @ORM\JoinColumn(nullable=true)
+     * @Groups("reclamation:read")
      */
     private $user;
 
@@ -61,6 +62,7 @@ class Reclamation
 
 /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Groups("reclamation:read")
      */
 
      private $etat_reclamation;
@@ -112,6 +114,11 @@ class Reclamation
         return $this;
     }
 
+    public function __construct()
+    {
+    $this->date_reclamation = new \DateTime('now');
+    $this->etat_reclamation = 'envoye';
+    }
     public function getEtatReclamation(): ?string
     {
         return $this->etat_reclamation;

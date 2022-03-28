@@ -203,6 +203,8 @@ class ReservationController extends AbstractController
        
         $reservation = $entityManager->getRepository(Reservation::class)->find($id);
         $reservation->setEtatReservation("confirmed");
+        $reservation->setUser($user);
+        $reservation->setBillet($billet);
         $entityManager->flush();
         $form = $this->createForm(ReservationEmailType::class);
         $form->handleRequest($request);
@@ -236,6 +238,8 @@ class ReservationController extends AbstractController
         $user = $entityManager->getRepository(User::class)->find($user);
        
         $reservation->setEtatReservation("cancelled");
+        $reservation->setUser($user);
+        $reservation->setBillet($billet);
         $entityManager->flush();
         $jsonContent= $serilazer->serialize($reservation,'json',['groups'=>"reservation:read"]);
         return new Response(json_encode($jsonContent));

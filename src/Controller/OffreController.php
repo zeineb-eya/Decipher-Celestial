@@ -19,6 +19,16 @@ use Knp\Component\Pager\PaginatorInterface; // Nous appelons le bundle KNP Pagin
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use App\Notifications\CreationOffreNotification;
+use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
+use Symfony\Component\Serializer\SerializerInterface;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
+
+use Symfony\Component\Serializer\Encoder\JsonEncoder;
+use Symfony\Component\Serializer\Encoder\XmlEncoder;
+use Symfony\Component\Serializer\Serializer;
+
+use Symfony\Component\Serializer\Normalizer\DateTimeNormalizer;
 /**
  * @Route("/offre")
  */
@@ -319,5 +329,135 @@ $offre=$repository->OrderByName();
 return $this->render('offre/index.html.twig', [
     'offre' => $offre
 ]); 
+    }
+    
+/******************************JSON FINAL crud******************************* */
+
+    /*******************************json display **********************************/
+
+    /**********affichage JSON li temchi Finall ************** */
+    /**
+     * @Route("/AllOffres", name="AllOffress")
+     */
+    public function displayOffrejson(OffreRepository $OffreRepository, SerializerInterface $serializer): Response
+    {
+        $result = $OffreRepository->findAll();
+        $json = $serializer->serialize($result, 'json', ['groups' => 'offre:read']);
+        return new JsonResponse($json, 200, [], true);
+    }
+
+    //Tri par Reduction json ASC
+
+    /**
+     * @Route("/listOffreByReductionAjson", name="listOffreByReductionAjson", methods={"GET"})
+     */
+    public function listOffreByReductionAjson(OffreRepository $repo,SerializerInterface $serilazer)
+    {
+
+        $offresByReductionAjson = $repo->orderByReductionOffreA();
+
+        //orderByDate();
+        $json = $serilazer->serialize($offresByReductionAjson, 'json', ['groups' => "offre:read"]);
+        return new JsonResponse($json, 200, [], true);
+    }
+     
+
+    
+    /************** Ajout offre li njreb feha tawa w temchiii Finalll**************/
+    /**
+     * @Route("/ajoutOffrejson", name="ajoutOffrejson")
+     */
+    public function ajoutOffrejson(Request $request, SerializerInterface $serilazer, EntityManagerInterface $em)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $offre = new Offre();
+        $date_debut_offre  = new \DateTime("now");
+        $date_fin_offre  = new \DateTime("now");
+        $offre->setNomOffre($request->get('nom_offre'));
+        $offre->setDescriptionOffre($request->get('description_offre'));
+        $offre->setPrixOffre($request->get('prix_offre'));
+        $offre->setReduction($request->get('reduction'));
+        
+        $offre->setDateDebutOffre($date_debut_offre);
+        $offre->setDateFinOffre($date_fin_offre);
+        // $offre->setDateDebutOffre($request->get('date_debut_offre'));
+        //  $offre->setDateFinOffre($request->get('date_fin_offre'));
+
+        $em->persist($offre);
+        $em->flush();
+
+        $jsonContent = $serilazer->serialize($offre, 'json', ['groups' => "offre:read"]);
+        return new Response(json_encode($jsonContent));
+    }
+
+    
+
+    /*************Supprimer json li njreb feha w temchi c'est bon******* */
+
+    /**
+     * @Route("/deleteOffrejson", name="delete_offrejson")
+     * @Method("DELETE")
+     */
+
+    public function deleteOffreJson(Request $request)
+    {
+        $id = $request->get("id");
+
+        $em = $this->getDoctrine()->getManager();
+        $offre = $em->getRepository(Offre::class)->find($id);
+        if ($offre != null) {
+            $em->remove($offre);
+            $em->flush();
+
+            $serialize = new Serializer([new ObjectNormalizer()]);
+            $formatted = $serialize->normalize("Offre supprime avec succes");
+            return new JsonResponse($formatted);
+        }
+        return new JsonResponse("id de l'offre est invalide");
+    }
+
+    /*********update reclam B USER li nnrjeb feha Finall******** */
+    /**
+     * @Route("/modifOffrejson/{id}", name="modifOffrejson")
+     */
+    public function modifReclamationjson(Request $request, SerializerInterface $serilazer, $id)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $offre = $em->getRepository(Offre::class)->find($id);
+        $date_debut_offre  = new \DateTime("now");
+        $date_fin_offre  = new \DateTime("now");
+        //  $user = $em->getRepository(User::class)->find($user_id);
+        // $date_reclamation = new \DateTime("now");
+
+        $offre->setNomOffre($request->get('nom_offre'));
+        $offre->setDescriptionOffre($request->get('description_offre'));
+        $offre->setPrixOffre($request->get('prix_offre'));
+        $offre->setPrixOffre($request->get('reduction'));
+        $offre->setDateDebutOffre($date_debut_offre);
+        $offre->setDateFinOffre($date_fin_offre);
+        //$offre->setDateDebutOffre($request->get('$date_debut_offre'));
+        //$offre->setDateFinOffre($request->get('$date_fin_offre'));
+
+        $em->persist($offre);
+        $em->flush();
+        $jsonContent = $serilazer->serialize($offre, 'json', ['groups' => "offre:read"]);
+        return new Response(json_encode($jsonContent));;
+    }
+
+
+    /******************Detail offre li temchiii Finalll***** */
+
+    /**
+     * @Route("/detailOffrejson/{id}", name="detailOffrejson")
+     */
+    public function detailOffrejson(Request $request, SerializerInterface $serilazer, $id): Response
+    {
+        $user = $request->get("id");
+
+        $em = $this->getDoctrine()->getManager();
+        $offre = $em->getRepository(Offre::class)->find($id);
+        $json = $serilazer->serialize($offre, 'json', ['groups' => "offre:read"]);
+        return new JsonResponse($json, 200, [], true);
     }
 }

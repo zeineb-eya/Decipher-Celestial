@@ -16,6 +16,11 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 use Symfony\Component\Serializer\SerializerInterface;
+use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
+use Symfony\Component\Serializer\Serializer;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+
+
 use Dompdf\Dompdf;
 use Dompdf\Options;
 
@@ -192,18 +197,7 @@ class PlaninngController extends AbstractController
 
 
 
-/////JSON//////////////////////////////////////////
-/**
-     * @Route("/APlaninng", name="APlaninng", methods={"GET"})
-     */
-    public function JSONindex(PlaninngRepository $PlaninngRepository,SerializerInterface $serializer): Response
-    {
-        $result = $PlaninngRepository->findAll();
-        /* $n = $normalizer->normalize($result, null, ['groups' => 'livreur:read']);
-        $json = json_encode($n); */
-        $json = $serializer->serialize($result, 'json', ['groups' => 'Planinng:read']);
-        return new JsonResponse($json, 200, [], true);
-    }
+
 
    
     /**
@@ -215,6 +209,116 @@ class PlaninngController extends AbstractController
             'planinng' => $planinng,
         ]);
     }
+    ////////////////////////JSON/////////////////////
+
+/////////////////////Affichage////////////////////
+
+/**
+     * @Route("/AllPlaninngs", name="AllPlaninngs")
+     */
+    public function JSONindex(PlaninngRepository $PlaninngRepository, SerializerInterface $serializer): Response
+    {
+        $result = $PlaninngRepository->findAll();
+        $json = $serializer->serialize($result, 'json', ['groups' => 'Planinng:read']);
+        return new JsonResponse($json, 200, [], true);
+    }
+
+
+    ///////////AjoutJson////////////////
+    
+/**
+     * @Route("/ajoutPlaninngjson", name="ajoutPlaninngjson")
+     */
+    public function ajoutPlaninngjson(Request $request, SerializerInterface $serilazer, EntityManagerInterface $em)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $planinng = new Planinng();
+        $dateDebut_planning  = new \DateTime("now"); 
+        $dateFin_planning  = new \DateTime("now"); 
+        $planinng->setNomPlanning($request->get('nom_planning'));
+        $planinng->setDescriptionPlanning($request->get('description_planning'));
+        $planinng->setPeriodePlanning($request->get('periode_planning'));
+        $planinng->setDestinationPlanning($request->get('destination_planning'));
+        $planinng->setPrixPlanning($request->get('prix_planning'));
+        $planinng->setDateDebutPlanning($dateDebut_planning);
+        $planinng->setDateFinPlanning($dateFin_planning);
+        $em->persist($planinng);
+        $em->flush();
+
+        $jsonContent = $serilazer->serialize($planinng, 'json', ['groups' => "Planinng:read"]);
+        return new Response(json_encode($jsonContent));
+    }
+
+
+/////////////delete JSON///////////////
+/**
+     * @Route("/deletePlaninngjson", name="delete_planinngjson")
+     * @Method("DELETE")
+     */
+
+    public function deletePlaninngjson(Request $request)
+    {
+        $id = $request->get("id");
+
+        $em = $this->getDoctrine()->getManager();
+        $planinng = $em->getRepository(Planinng::class)->find($id);
+        if ($planinng != null) {
+            $em->remove($planinng);
+            $em->flush();
+
+            $serialize = new Serializer([new ObjectNormalizer()]);
+            $formatted = $serialize->normalize("Planinng supprime avec succes");
+            return new JsonResponse($formatted);
+        }
+        return new JsonResponse("id de l'planinng est invalide");
+    }
+
+
+    ///////////////////////update///////
+
+     /**
+     * @Route("/modifPlaninngjson/{id}", name="modifPlaninngjson")
+     */
+    public function modifPlaninngjson(Request $request, SerializerInterface $serilazer, $id)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $planinng = $em->getRepository(Planinng::class)->find($id);
+        //  $user = $em->getRepository(User::class)->find($user_id);
+        $dateDebut_planning  = new \DateTime("now"); 
+        $dateFin_planning  = new \DateTime("now"); 
+        $planinng->setNomPlanning($request->get('nom_planning'));
+        $planinng->setDescriptionPlanning($request->get('description_planning'));
+        $planinng->setPeriodePlanning($request->get('periode_planning'));
+        $planinng->setDestinationPlanning($request->get('destination_planning'));
+        $planinng->setPrixPlanning($request->get('prix_planning'));
+        $planinng->setDateDebutPlanning($dateDebut_planning);
+        $planinng->setDateFinPlanning($dateFin_planning);
+
+        $em->persist($planinng);
+        $em->flush();
+        $jsonContent = $serilazer->serialize($planinng, 'json', ['groups' => "Planinng:read"]);
+        return new Response(json_encode($jsonContent));;
+    }
+////////////////////////detail///////
+/**
+     * @Route("/detailPlaninngjson/{id}", name="detailPlaninngjson")
+     */
+    public function detailPlaninngjson(Request $request, SerializerInterface $serilazer, $id): Response
+    {
+        $user = $request->get("id");
+
+        $em = $this->getDoctrine()->getManager();
+        $planinng = $em->getRepository(Planinng::class)->find($id);
+        $json = $serilazer->serialize($planinng, 'json', ['groups' => "Planinng:read"]);
+        return new JsonResponse($json, 200, [], true);
+    }
+
+
+
+
+
+
     
      /**
      * @Route("/{id}", name="planinng_showfront", methods={"GET"})
@@ -274,7 +378,15 @@ class PlaninngController extends AbstractController
 
         return $this->redirectToRoute('planinng_index', [], Response::HTTP_SEE_OTHER);
     }
+   
     
+
+
+
+
+
+
+
    
 }
 

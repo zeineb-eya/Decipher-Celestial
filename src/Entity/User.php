@@ -14,8 +14,6 @@ use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * @ORM\Entity(repositoryClass=UsersRepository::class)
- * @UniqueEntity(fields={"mail_utilisateur"}, message="There is already an account with this mail_utilisateur")
-
  */
 class User implements UserInterface
 {
@@ -101,35 +99,6 @@ class User implements UserInterface
      */
     private $DateN_utilisateur;
 
-    /** 
-     * @ORM\ManyToOne(targetEntity=Post::class, inversedBy="User")
-     */
-     
-    private $post;
-
-    /**
-     * @ORM\OneToMany(targetEntity=Reclamation::class, mappedBy="user")
-     */
-    private $Reclamation;
-
-    /**
-     * @ORM\OneToMany(targetEntity=Reservation::class, mappedBy="user")
-     */
-    private $reservations;
-
-    /**
-     * @ORM\ManyToOne(targetEntity=Role::class, inversedBy="user")
-     */
-    private $nom_role;
-     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    private $googleId;
-
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    private $googleAccessToken;
 
    
     public function __construct()

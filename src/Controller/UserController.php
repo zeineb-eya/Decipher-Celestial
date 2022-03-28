@@ -12,6 +12,8 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
+use Symfony\Component\Serializer\SerializerInterface;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 
@@ -186,6 +188,64 @@ return new Response(json_encode($jsonContent));
 
         return $this->redirectToRoute('user_index', [], Response::HTTP_SEE_OTHER);
     }
+       /**
+     * @Route("/AllUsers/json", name="AllUsers")
+     */
+    public function AllUsers(UsersRepository $rep,SerializerInterface $serilazer):Response
+    {
+        $users= $rep->findAll();
+
+        $json= $serilazer->serialize($users,'json',['groups'=>"post:read"]);
+        return new JsonResponse($json,200,[],true);
+    } 
+    /**
+    * @Route("/AddUsers/json", name="AddUsers")
+    */
+   public function AddUsersJSON(Request $request,NormalizerInterface $Normalizer)
+   {
+       $em = $this->getDoctrine()->getManager();
+       $Role = new User();
+       $Role->setNomUtilisateur($request->get('nom_utilisateur'));
+       $Role->setPrenomUtilisateur($request->get('prenom_utilisateur'));
+       $Role->setAdresseUtilisateur($request->get('adresse_utilisateur'));
+       $Role->setMailUtilisateur($request->get('mail_utilisateur'));
+       $Role->setSudoUtilisateur($request->get('sudo_utilisateur'));
+       $Role->setPassword($request->get('password'));
+       $Role->setNumeroUtilisateur($request->get('Numero_utilisateur'));
+       $em->persist($Role);
+       $em->flush();
+
+       $jsonContent= $Normalizer->normalize($Role,'json',['groups'=>"post:read"]);
+       return new Response(json_encode($jsonContent));;
+   }
+   /**
+   * @Route("/updateUserJSON/{id}", name="updateUserJSON")
+*/
+public function updateUserJSON ( Request $request, NormalizerInterface $Normalizer, $id)
+
+{ 
+    $em = $this->getDoctrine()->getManager(); 
+    $Role = $em->getRepository(User::class)->find($id);
+    $Role->setNomUtilisateur($request->get('nom_utilisateur'));
+       $Role->setPrenomUtilisateur($request->get('prenom_utilisateur'));
+       $Role->setMailUtilisateur($request->get('mail_utilisateur'));
+    
+    $em->flush();
+    $jsonContent= $Normalizer->normalize($Role,'json',['groups'=>"post:read"]);
+    return new Response("Information updated successfully".json_encode($jsonContent));
+}
+
+/**
+* @Route("/deleteUserJSON/{id}", name="deleteUserJSON")
+*/
+public function deleteUserJSON(Request $request, NormalizerInterface $Normalizer, $id)
+{   $em = $this->getDoctrine()->getManager(); 
+    $Role = $em->getRepository (User::class)->find($id); 
+    $em->remove($Role); 
+    $em->flush(); 
+    $jsonContent= $Normalizer->normalize($Role,'json',['groups'=>'post:read']); 
+    return new Response("User deleted successfully".json_encode($jsonContent));
+}
 
   
 }
