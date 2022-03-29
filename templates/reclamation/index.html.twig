@@ -57,7 +57,8 @@
 					<td>{{ reclamation.descriptionReclamation }}</td>
 					<td>{{ reclamation.dateReclamation ? reclamation.dateReclamation|date('Y-m-d') : '' }}</td>
 					
-					<td>{{ reclamation.user }}</td>
+					{#<td>{{ reclamation.user }}</td>#}
+					 <td>{{ reclamation.user.prenomUtilisateur }} {{ reclamation.user.nomUtilisateur }}</td>
 					<td>{{ reclamation.etatReclamation }}</td>
 					
 					<div>
